@@ -110,4 +110,24 @@ net localgroup Administrators
 ```cmd
 net accounts
 ```
+### Communication With Processess
+
+Pipelist and AccessChk are part of the SysInternals Suite
+
+## Listing Named Pipes
+```cmd
+pipelist.exe /accepteula
+```
+```powershell
+gci \\.\pipe\
+```
+
+### Reviewing Named Pipe Permissions
+```cmd
+accesschk.exe /accepteula \\.\Pipe\lsass -v
+```
+
+
+
+
 
