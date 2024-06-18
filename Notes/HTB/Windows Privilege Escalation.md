@@ -10,8 +10,8 @@
 * [Windows Exploit Suggester - Next Generation](https://github.com/bitsadmin/wesng)
 * [Sysinternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)
 
-[Compiled Binaries of Seatbelt and SharpUp](https://github.com/r3motecontrol/Ghostpack-CompiledBinaries)
-[Standalone LaZagne](https://github.com/AlessandroZ/LaZagne/releases/)
+- [Compiled Binaries of Seatbelt and SharpUp](https://github.com/r3motecontrol/Ghostpack-CompiledBinaries)
+- [Standalone LaZagne](https://github.com/AlessandroZ/LaZagne/releases/)
 
 > Note: Depending on how we gain access to a system we may not have many directories that are writeable by our user to upload tools. It is always a safe bet to upload tools to C:\Windows\Temp because the BUILTIN\Users group has write access. 
 
