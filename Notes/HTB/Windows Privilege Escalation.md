@@ -132,7 +132,7 @@ net accounts
 ```
 ### Communication With Processess
 
-Pipelist and AccessChk are part of the SysInternals Suite
+> Pipelist and AccessChk are part of the SysInternals Suite
 
 #### Listing Named Pipes
 ```cmd
