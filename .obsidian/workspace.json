@@ -11,8 +11,12 @@
             "id": "2c6b3a43f87d43d5",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "HTB/cheatsheat-Windows Privilege Escalation.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
         ]
@@ -81,6 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "HTB/cheatsheat-Windows Privilege Escalation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "HTB/cheatsheat-Windows Privilege Escalation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,11 +124,13 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "HTB/cheatsheat-Windows Privilege Escalation.md"
+              }
             }
           }
         ],
-        "currentTab": 2
+        "currentTab": 3
       }
     ],
     "direction": "horizontal",
@@ -139,8 +147,9 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "1bd8e0355d477e66",
+  "active": "2c6b3a43f87d43d5",
   "lastOpenFiles": [
+    "HTB/Windows Privilege Escalation.md",
     "HTB Boxes/Zipping.md",
     "HTB Boxes/Visual.md",
     "HTB Boxes/Topology.md",
@@ -171,7 +180,6 @@
     "Vuln Hub Boxes/Harry Potter Series",
     "Vuln Hub Boxes/Nully Cybersecurity.md",
     "Vuln Hub Boxes/Golden Eye.md",
-    "Vuln Hub Boxes/Fall.md",
     "Vuln Hub Boxes",
     "Tool Box",
     "Templates",
