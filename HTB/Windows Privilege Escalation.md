@@ -259,3 +259,15 @@ accesschk.exe -accepteula -w \pipe\lsass -v
 ```powershell
 findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml
 ```
+
+```powershell
+findstr /spin "password" *.*
+```
+
+```powershell
+select-string -Path C:\Users\htb-student\Documents\*.txt -Pattern password
+```
+
+### Sticky Notes Passwords
+
+> People often use the StickyNotes app on Windows workstations to save passwords and other information, not realizing it is a database file. This file is located at C:\Users\<user>\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite and is always worth searching for and examining. We can copy the three plum.sqlite* files down to our system and open them with a tool such as DB Browser for SQLite and view the Text column in the Note table with the query 'select Text from Note;'.
