@@ -271,3 +271,38 @@ select-string -Path C:\Users\htb-student\Documents\*.txt -Pattern password
 ### Sticky Notes Passwords
 
 > People often use the StickyNotes app on Windows workstations to save passwords and other information, not realizing it is a database file. This file is located at C:\Users\<user>\AppData\Local\Packages\Microsoft.MicrosoftStickyNotes_8wekyb3d8bbwe\LocalState\plum.sqlite and is always worth searching for and examining. We can copy the three plum.sqlite* files down to our system and open them with a tool such as DB Browser for SQLite and view the Text column in the Note table with the query 'select Text from Note;'.
+
+### CMD Key Saved Credentials
+
+> The cmdkey command can be used to create, list, and delete stored usernames and passwords. Users may wish to store credentials for a specific host or use it to store credentials for terminal services connections to connect to a remote host using Remote Desktop without needing to enter a password. This may help us either move laterally to another system with a different user or escalate privileges on the current host to leverage stored credentials for another user.
+
+```cmd
+cmdkey /list
+```
+
+> We can attempt to use the saved cred to run commands with it
+
+```cmd
+runas /savecred /user:inlanefreight\bob "COMMAND HERE"
+```
+
+### AutoLogon
+
+> Registry key for AutoLogon "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+
+```cmd
+reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon"
+```
+### Putty Saved Credentials
+
+> Putty credentials are stored in cleartext at this registry key location "Computer\HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\<SESSION NAME>"
+
+### Stored WiFi Credentials
+
+```cmd
+netsh wlan show profile
+```
+
+```cmd
+netsh wlan show profile <profile_name> key=clear
+```
