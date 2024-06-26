@@ -106,6 +106,18 @@ Get-WmiObject -Class Win32_Product | select Name, Version
 netstat -ano
 ```
 
+```cmd
+netstat -ano | findstr 6064
+```
+
+```powershell
+Get-Process -Id 1234
+```
+
+```powershell
+Get-Service | ? {$_.DisplayName -like 'Druva*'}
+```
+
 ### Enumerate User and Group Information
 
 #### Logged-In Users
