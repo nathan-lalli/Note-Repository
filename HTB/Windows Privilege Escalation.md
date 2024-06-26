@@ -253,3 +253,9 @@ accesschk.exe -accepteula -w \pipe\lsass -v
 4. In the right pane, look for the SafeDllSearchMode value. If it does not exist, right-click the blank space of the folder or right-click the Session Manager folder, select New and then DWORD (32-bit) Value. Name this new value as SafeDllSearchMode.
 5. Double-click SafeDllSearchMode. In the Value data field, enter 1 to enable and 0 to disable Safe DLL Search Mode.
 6. Click OK, close the Registry Editor and Reboot the system for the changes to take effect.
+
+### Searching for Passwords in Files
+
+```powershell
+findstr /SIM /C:"password" *.txt *.ini *.cfg *.config *.xml
+```
