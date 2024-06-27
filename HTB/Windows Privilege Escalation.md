@@ -12,6 +12,7 @@
 * [LaZagne](https://github.com/AlessandroZ/LaZagne)
 * [Windows Exploit Suggester - Next Generation](https://github.com/bitsadmin/wesng)
 * [Sysinternals Suite](https://docs.microsoft.com/en-us/sysinternals/downloads/sysinternals-suite)
+* [Sherlock](https://github.com/rasta-mouse/Sherlock)
 
 [Compiled Binaries of Seatbelt and SharpUp](https://github.com/r3motecontrol/Ghostpack-CompiledBinaries)\
 [Standalone LaZagne](https://github.com/AlessandroZ/LaZagne/releases/)
