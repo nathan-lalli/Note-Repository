@@ -269,6 +269,10 @@ findstr /spin "password" *.*
 select-string -Path C:\Users\htb-student\Documents\*.txt -Pattern password
 ```
 
+```powershell
+Get-ChildItem -Recurse -Force -ErrorAction SilentlyContinue | Select-String "password" -List | Select Path
+```
+
 ### Looking Through all User's PS History
 
 ```powershell
