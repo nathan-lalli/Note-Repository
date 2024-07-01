@@ -4,16 +4,16 @@
     "type": "split",
     "children": [
       {
-        "id": "dc8f8b94c14074fe",
+        "id": "2e61176a015989ec",
         "type": "tabs",
         "children": [
           {
-            "id": "b4aae618111e0b06",
+            "id": "c85aed8eea44a7e3",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB/Windows Privilege Escalation.md",
+                "file": "Knowledge Base/Port Forwarding.md",
                 "mode": "source",
                 "source": false
               }
@@ -86,7 +86,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HTB/Windows Privilege Escalation.md",
+                "file": "Knowledge Base/Port Forwarding.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +103,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "HTB/Windows Privilege Escalation.md",
+                "file": "Knowledge Base/Port Forwarding.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +126,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HTB/Windows Privilege Escalation.md"
+                "file": "Knowledge Base/Port Forwarding.md"
               }
             }
           }
@@ -148,8 +148,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b4aae618111e0b06",
+  "active": "c85aed8eea44a7e3",
   "lastOpenFiles": [
+    "HTB/Windows Privilege Escalation.md",
+    "Knowledge Base/Portfoward.md",
+    "Tool Box/MetaSploit.md",
+    "Knowledge Base/Port Forwarding.md",
+    "Knowledge Base/Mounting NFS Shares.md",
+    "Tool Box/Socat.md",
+    "Knowledge Base/Subdomain & Vhost Fuzzing.md",
     "HTB Boxes/Usage.md",
     "Images/Usage/usage_7z_location.png",
     "Images/Active/usersAndGroups.png",
@@ -166,7 +173,6 @@
     "Images/Usage/usage_user_confirmation.png",
     "Tool Box/Stabilize Shell.md",
     "HTB/cheatsheat-Windows Privilege Escalation.md",
-    "HTB/Windows Privilege Escalation.md",
     "HTB Boxes/Zipping.md",
     "HTB Boxes/Visual.md",
     "HTB Boxes/Topology.md",
@@ -183,14 +189,9 @@
     "HTB Boxes/Active.md",
     "HTB Boxes",
     "Ghost VM/Things to Do.md",
-    "Ghost VM/Making-A-Ghost-VM.md",
     "Ghost VM",
-    "GCT Stuff/Process of Assessments.md",
     "GCT Stuff",
     "CTFs",
-    "President's Cup.md",
-    "Office.md",
-    "Vuln Hub Boxes/Harry Potter Series/Aragog.md",
     "Vuln Hub Boxes/Harry Potter Series",
     "Vuln Hub Boxes",
     "Tool Box",

