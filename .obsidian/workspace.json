@@ -13,13 +13,50 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Knowledge Base/Port Forwarding.md",
+                "file": "Tool Box/Finding Files.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "477bf47f25fdbfde",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Knowledge Base/Mounting NFS Shares.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "2169e46bd61b0d37",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "HTB Boxes/Editorial.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "378af7960c2a721e",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "HTB Boxes/Usage.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -69,8 +106,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "right": {
     "id": "6162347b1c37e3a3",
@@ -86,7 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Knowledge Base/Port Forwarding.md",
+                "file": "HTB Boxes/Editorial.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -103,7 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Knowledge Base/Port Forwarding.md",
+                "file": "HTB Boxes/Editorial.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -126,7 +162,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Knowledge Base/Port Forwarding.md"
+                "file": "HTB Boxes/Editorial.md"
               }
             }
           }
@@ -148,29 +184,35 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "c85aed8eea44a7e3",
+  "active": "2169e46bd61b0d37",
   "lastOpenFiles": [
+    "Pasted image 20240719114701.png",
+    "Pasted image 20240719114539.png",
+    "Pasted image 20240719114527.png",
+    "Pasted image 20240719114512.png",
+    "Pasted image 20240719114501.png",
+    "Pasted image 20240719114404.png",
+    "Pasted image 20240719114338.png",
+    "Pasted image 20240719110044.png",
+    "Pasted image 20240719110033.png",
+    "HTB Boxes/Usage.md",
+    "HTB Boxes/Editorial.md",
+    "Knowledge Base/Mounting NFS Shares.md",
+    "Tool Box/Enum4Linux.md",
+    "Tool Box/Finding Files.md",
     "HTB/Windows Privilege Escalation.md",
+    "Tool Box/SMBClient.md",
+    "Tool Box/SMBMap.md",
+    "Tool Box/Remove Enters from File.md",
+    "Knowledge Base/Port Forwarding.md",
     "Knowledge Base/Portfoward.md",
     "Tool Box/MetaSploit.md",
-    "Knowledge Base/Port Forwarding.md",
-    "Knowledge Base/Mounting NFS Shares.md",
     "Tool Box/Socat.md",
     "Knowledge Base/Subdomain & Vhost Fuzzing.md",
-    "HTB Boxes/Usage.md",
     "Images/Usage/usage_7z_location.png",
     "Images/Active/usersAndGroups.png",
     "Images/Usage",
-    "Images/Active/dnsRecord.png",
-    "Images/Active/credentialedSMBMap.png",
-    "Images/Active/activeNmapScan.png",
     "Images/Active",
-    "Images/Active/campaignID.png",
-    "Images/Usage/usage_uname.png",
-    "Pasted image 20240621152037.png",
-    "Tool Box/Finding Files.md",
-    "Images/Usage/usage_root_confirmation.png",
-    "Images/Usage/usage_user_confirmation.png",
     "Tool Box/Stabilize Shell.md",
     "HTB/cheatsheat-Windows Privilege Escalation.md",
     "HTB Boxes/Zipping.md",
@@ -182,13 +224,7 @@
     "HTB Boxes/OnlyForYou.md",
     "HTB Boxes/Keeper.md",
     "HTB Boxes/Download.md",
-    "HTB Boxes/Intentions.md",
-    "HTB Boxes/Forest.md",
-    "HTB Boxes/Devel.md",
-    "HTB Boxes/Cozy Hosting.md",
-    "HTB Boxes/Active.md",
     "HTB Boxes",
-    "Ghost VM/Things to Do.md",
     "Ghost VM",
     "GCT Stuff",
     "CTFs",
