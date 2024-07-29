@@ -4,11 +4,23 @@
     "type": "split",
     "children": [
       {
-        "id": "2e61176a015989ec",
+        "id": "3e14cba03a442488",
         "type": "tabs",
         "children": [
           {
-            "id": "c85aed8eea44a7e3",
+            "id": "e72f4d9ebb290f15",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "HTB Boxes/Dante/First Box.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "6886392507cfdbed",
             "type": "leaf",
             "state": {
               "type": "markdown",
@@ -18,45 +30,8 @@
                 "source": false
               }
             }
-          },
-          {
-            "id": "477bf47f25fdbfde",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Knowledge Base/Mounting NFS Shares.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "2169e46bd61b0d37",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HTB Boxes/Editorial.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "378af7960c2a721e",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HTB Boxes/Usage.md",
-                "mode": "source",
-                "source": false
-              }
-            }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -85,7 +60,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "php",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -122,7 +97,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HTB Boxes/Editorial.md",
+                "file": "HTB Boxes/Dante/First Box.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +114,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "HTB Boxes/Editorial.md",
+                "file": "HTB Boxes/Dante/First Box.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +137,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HTB Boxes/Editorial.md"
+                "file": "HTB Boxes/Dante/First Box.md"
               }
             }
           }
@@ -184,33 +159,40 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2169e46bd61b0d37",
+  "active": "e72f4d9ebb290f15",
   "lastOpenFiles": [
-    "Pasted image 20240719114701.png",
-    "Pasted image 20240719114539.png",
-    "Pasted image 20240719114527.png",
-    "Pasted image 20240719114512.png",
-    "Pasted image 20240719114501.png",
-    "Pasted image 20240719114404.png",
-    "Pasted image 20240719114338.png",
-    "Pasted image 20240719110044.png",
-    "Pasted image 20240719110033.png",
+    "Tool Box/Finding Files.md",
+    "Tool Box/Remove Enters from File.md",
+    "HTB Boxes/Dante/First Box.md",
+    "HTB Boxes/Office.md",
+    "Pasted image 20240729113950.png",
+    "Pasted image 20240729113937.png",
+    "Pasted image 20240729113621.png",
+    "Pasted image 20240729113444.png",
+    "Pasted image 20240729112223.png",
+    "Pasted image 20240729112209.png",
+    "Pasted image 20240729112201.png",
+    "Pasted image 20240729112148.png",
+    "Pasted image 20240729112054.png",
+    "Pasted image 20240729112047.png",
+    "HTB Boxes/Dante/Dante.md",
+    "Images/Dante",
+    "Images/Untitled.md",
+    "Images/Editorial",
+    "HTB Boxes/Dante",
+    "Knowledge Base/Port Forwarding.md",
+    "Knowledge Base/Subdomain & Vhost Fuzzing.md",
+    "Knowledge Base/LDAP.md",
+    "Tool Box/MetaSploit.md",
     "HTB Boxes/Usage.md",
+    "HTB/Windows Privilege Escalation.md",
     "HTB Boxes/Editorial.md",
     "Knowledge Base/Mounting NFS Shares.md",
     "Tool Box/Enum4Linux.md",
-    "Tool Box/Finding Files.md",
-    "HTB/Windows Privilege Escalation.md",
     "Tool Box/SMBClient.md",
     "Tool Box/SMBMap.md",
-    "Tool Box/Remove Enters from File.md",
-    "Knowledge Base/Port Forwarding.md",
     "Knowledge Base/Portfoward.md",
-    "Tool Box/MetaSploit.md",
     "Tool Box/Socat.md",
-    "Knowledge Base/Subdomain & Vhost Fuzzing.md",
-    "Images/Usage/usage_7z_location.png",
-    "Images/Active/usersAndGroups.png",
     "Images/Usage",
     "Images/Active",
     "Tool Box/Stabilize Shell.md",
@@ -220,17 +202,10 @@
     "HTB Boxes/Topology.md",
     "HTB Boxes/Soccer.md",
     "HTB Boxes/Sandworm.md",
-    "HTB Boxes/PC.md",
-    "HTB Boxes/OnlyForYou.md",
-    "HTB Boxes/Keeper.md",
-    "HTB Boxes/Download.md",
     "HTB Boxes",
     "Ghost VM",
     "GCT Stuff",
     "CTFs",
-    "Vuln Hub Boxes/Harry Potter Series",
-    "Vuln Hub Boxes",
-    "Tool Box",
-    "Templates"
+    "Vuln Hub Boxes/Harry Potter Series"
   ]
 }
