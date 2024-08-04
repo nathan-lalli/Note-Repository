@@ -4,28 +4,40 @@
     "type": "split",
     "children": [
       {
-        "id": "3e14cba03a442488",
+        "id": "490e54855275a1d2",
         "type": "tabs",
         "children": [
           {
-            "id": "e72f4d9ebb290f15",
+            "id": "2e13832eedbc8b1f",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB Boxes/Dante/First Box.md",
+                "file": "BlackHat/Random Notes.md",
                 "mode": "source",
                 "source": false
               }
             }
           },
           {
-            "id": "6886392507cfdbed",
+            "id": "2181d9aa9b9f4d64",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Tool Box/Finding Files.md",
+                "file": "BlackHat/Day 1 AIH.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "fbe6502a44739ee4",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "HTB/Windows Privilege Escalation.md",
                 "mode": "source",
                 "source": false
               }
@@ -60,7 +72,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "php",
+                "query": "reg sav",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -81,7 +93,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 300
+    "width": 200,
+    "collapsed": true
   },
   "right": {
     "id": "6162347b1c37e3a3",
@@ -97,7 +110,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HTB Boxes/Dante/First Box.md",
+                "file": "BlackHat/Random Notes.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -114,7 +127,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "HTB Boxes/Dante/First Box.md",
+                "file": "BlackHat/Random Notes.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -137,7 +150,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HTB Boxes/Dante/First Box.md"
+                "file": "BlackHat/Random Notes.md"
               }
             }
           }
@@ -159,53 +172,52 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "e72f4d9ebb290f15",
+  "active": "b6b0732847033d36",
   "lastOpenFiles": [
-    "Tool Box/Finding Files.md",
-    "Tool Box/Remove Enters from File.md",
-    "HTB Boxes/Dante/First Box.md",
-    "HTB Boxes/Office.md",
-    "Pasted image 20240729113950.png",
-    "Pasted image 20240729113937.png",
-    "Pasted image 20240729113621.png",
-    "Pasted image 20240729113444.png",
-    "Pasted image 20240729112223.png",
-    "Pasted image 20240729112209.png",
-    "Pasted image 20240729112201.png",
-    "Pasted image 20240729112148.png",
-    "Pasted image 20240729112054.png",
-    "Pasted image 20240729112047.png",
-    "HTB Boxes/Dante/Dante.md",
-    "Images/Dante",
-    "Images/Untitled.md",
-    "Images/Editorial",
-    "HTB Boxes/Dante",
-    "Knowledge Base/Port Forwarding.md",
-    "Knowledge Base/Subdomain & Vhost Fuzzing.md",
-    "Knowledge Base/LDAP.md",
-    "Tool Box/MetaSploit.md",
-    "HTB Boxes/Usage.md",
     "HTB/Windows Privilege Escalation.md",
-    "HTB Boxes/Editorial.md",
+    "Tool Box/Stabilize Shell.md",
+    "BlackHat/Day 1 AIH.md",
+    "Pasted image 20240803181812.png",
+    "Pasted image 20240803181430.png",
+    "Pasted image 20240803181410.png",
+    "Pasted image 20240803181401.png",
+    "BlackHat/Random Notes.md",
+    "Pasted image 20240803140017.png",
+    "HTB Boxes/Office.md",
+    "Pasted image 20240803121951.png",
+    "BlackHat/Scope.md",
+    "Images/Dante/Pasted image 20240729113950.png",
+    "BlackHat",
+    "Images/Dante/Pasted image 20240729111624.png",
+    "Images/Untitled",
+    "Images/Dante/Pasted image 20240729111911.png",
+    "Images/Dante/Pasted image 20240729111753.png",
+    "Knowledge Base/Subdomain & Vhost Fuzzing.md",
     "Knowledge Base/Mounting NFS Shares.md",
-    "Tool Box/Enum4Linux.md",
-    "Tool Box/SMBClient.md",
-    "Tool Box/SMBMap.md",
-    "Knowledge Base/Portfoward.md",
-    "Tool Box/Socat.md",
+    "Images/Editorial",
+    "Images/Dante",
+    "HTB Boxes/Editorial.md",
+    "HTB Boxes/Dante/First Box.md",
+    "HTB Boxes/Dante/Dante.md",
+    "HTB Boxes/Dante",
+    "HTB Boxes/Usage.md",
     "Images/Usage",
     "Images/Active",
-    "Tool Box/Stabilize Shell.md",
+    "Tool Box/Finding Files.md",
     "HTB/cheatsheat-Windows Privilege Escalation.md",
     "HTB Boxes/Zipping.md",
     "HTB Boxes/Visual.md",
     "HTB Boxes/Topology.md",
     "HTB Boxes/Soccer.md",
     "HTB Boxes/Sandworm.md",
+    "HTB Boxes/PC.md",
+    "HTB Boxes/OnlyForYou.md",
+    "HTB Boxes/Keeper.md",
+    "HTB Boxes/Download.md",
+    "HTB Boxes/Intentions.md",
+    "HTB Boxes/Forest.md",
     "HTB Boxes",
     "Ghost VM",
-    "GCT Stuff",
-    "CTFs",
-    "Vuln Hub Boxes/Harry Potter Series"
+    "GCT Stuff"
   ]
 }
