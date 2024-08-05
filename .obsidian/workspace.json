@@ -25,7 +25,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BlackHat/Day 1 AIH.md",
+                "file": "BlackHat/Advanced Infrastructure Hacking.md",
                 "mode": "source",
                 "source": false
               }
@@ -37,7 +37,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "HTB/Windows Privilege Escalation.md",
+                "file": "Tool Box/Finding Files.md",
                 "mode": "source",
                 "source": false
               }
@@ -172,26 +172,27 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b6b0732847033d36",
+  "active": "2e13832eedbc8b1f",
   "lastOpenFiles": [
+    "Tool Box/Finding Files.md",
     "HTB/Windows Privilege Escalation.md",
-    "Tool Box/Stabilize Shell.md",
-    "BlackHat/Day 1 AIH.md",
-    "Pasted image 20240803181812.png",
-    "Pasted image 20240803181430.png",
-    "Pasted image 20240803181410.png",
-    "Pasted image 20240803181401.png",
     "BlackHat/Random Notes.md",
-    "Pasted image 20240803140017.png",
-    "HTB Boxes/Office.md",
-    "Pasted image 20240803121951.png",
+    "BlackHat/Advanced Infrastructure Hacking.md",
     "BlackHat/Scope.md",
-    "Images/Dante/Pasted image 20240729113950.png",
+    "Pasted image 20240804115442.png",
+    "Pasted image 20240804115430.png",
+    "Pasted image 20240804111544.png",
+    "Pasted image 20240804111443.png",
+    "Pasted image 20240804105530.png",
+    "Pasted image 20240804094958.png",
+    "Pasted image 20240804094945.png",
+    "Pasted image 20240804094859.png",
+    "Pasted image 20240804094829.png",
+    "Pasted image 20240804094710.png",
+    "Tool Box/Stabilize Shell.md",
+    "HTB Boxes/Office.md",
     "BlackHat",
-    "Images/Dante/Pasted image 20240729111624.png",
     "Images/Untitled",
-    "Images/Dante/Pasted image 20240729111911.png",
-    "Images/Dante/Pasted image 20240729111753.png",
     "Knowledge Base/Subdomain & Vhost Fuzzing.md",
     "Knowledge Base/Mounting NFS Shares.md",
     "Images/Editorial",
@@ -203,7 +204,6 @@
     "HTB Boxes/Usage.md",
     "Images/Usage",
     "Images/Active",
-    "Tool Box/Finding Files.md",
     "HTB/cheatsheat-Windows Privilege Escalation.md",
     "HTB Boxes/Zipping.md",
     "HTB Boxes/Visual.md",

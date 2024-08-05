@@ -444,3 +444,216 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 * Disable Proxy Auto Detection to mitigate WPAD abuse
 * Instead of relying on WPAD, explicitly configure the PAC URL
 * Enable SMB and LDAP signing to mitigate NTLM relay
+
+### AMSI Bypass Techniques & Post Exploitation
+
+**Simplified AMSI Architecture**
+
+![[Pasted image 20240804094209.png]]
+
+**AMSI_RESULT Values**
+
+![[Pasted image 20240804094237.png]]
+
+**Limitations of AMSI Provider Checks**
+
+* Signature-based detection, easily bypassed by:
+	* String manipulation
+	* Obfuscation
+	* Encoding
+* Hit or mis, depending on the AV vendor's signature
+* Invoke-Obfuscation.ps1
+* https://amsi.fail
+
+**Signature Evasion - AmsiTrigger**
+
+* PowerShell find code signature with AmsiTrigger
+* Manually adjust the code to bypass signature-based threat detection mechanisms
+
+![[Pasted image 20240804094446.png]]
+
+**Opportunities to Disable AMSI**
+
+* AMSI is loaded into the address space of the attacker-created process
+* Each component can be tampered with to break the chain
+
+![[Pasted image 20240804094550.png]]
+
+**Tampering with Consumers: PowerShell**
+
+> Tampering differs based on consumer application
+
+* amsiInitFailed
+* amsiContext
+
+![[Pasted image 20240804094644.png]]
+
+* Force set amsiInitFailed to True
+
+![[Pasted image 20240804094710.png]]
+
+**Tampering with amsi.dll**
+
+* Code Path Functions
+	* AmsiOpenSession()
+	* AmsiScanBuffer()
+* Alternate ways to locate functions: Function Offsets & Egg Hunter
+* Drawback: Detected by scanners looking for amsi.dll code patches at runtime
+
+![[Pasted image 20240804094829.png]]
+
+**Patching AmsiOpenSession**
+
+* Craft your own patch
+
+![[Pasted image 20240804094859.png]]
+
+**Patching AmsiOpenSession**
+
+* Find the offset of address to be patched -> convert from hex to decimal
+
+![[Pasted image 20240804094945.png]]
+
+![[Pasted image 20240804094958.png]]
+
+### Windows Authentication/Pass the Hash
+
+![[Pasted image 20240804105530.png]]
+
+>Windows systems allow authentication using hashes - we don’t need the plaintext password!
+
+* PowerShell:
+	* Invoke-TheHash
+* MimiKatz:
+	* sekurlsa::pth /user:kevin /domain:plum.local /ntlm:80de0b25034cbe9a63df9d8dfcdaadf3 /run:powershell.exe
+* Rubeus:
+	* Rubeus.exe asktgt /domain:plum.local /rc4:80de0b25034cbe9a63df9d8dfcdaadf3 /ptt
+
+* However, if we have administrative access to the host we can make a registry change and then it’s business as usual: 
+* “HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows\CurrentVe rsion\Policies\System” 
+	* Type: DWORD (32-bit) 
+	* Name: LocalAccountTokenFilterPolicy Data: 1
+
+**Extra Protection**
+
+* Restricted Admin Mode: https://blogs.technet.microsoft.com/kfalde/2013/08/14/restricted-admin-mode-for-rdp-inwindows-8-1-2012-r2/
+* Utilize the Protected Users group: https://technet.microsoft.com/enus/library/dn466518(v=ws.11).aspx
+	* Members can’t authenticate using NTLM, Digest Auth or CredSSP
+	* Passwords are not cached
+	* Kerberos AES support only (DES and RC4 excluded)
+	* Account cannot be delegated
+	* Reduced TGT lifetime (4 hours)
+* Credential Guard has been introduced in Windows 10 Enterprise & Server 2016 https://technet.microsoft.com/en-us/itpro/windows/keep-secure/credential-guard
+
+**Credential Guard**
+
+* On by default on Windows 11 version 22H2 Enterprise/Education
+* Lsaiso.exe runs in Hyper-V virtual machines
+* Advanced local procedure calls (ALPCs)
+* Lsaiso.exe remains offline
+* Lsass.exe handles the Send/receive
+* While cryptographic operations are handled by Lsaiso
+
+**Local Administrator Password Solution (LAPS)**
+
+* Periodic rotation of local admin passwords as per policy and storage in AD
+* Password stored in mc-Mcs-AdmPwd with expiry as ms-MCS-AdmPwdExpirationTime
+* Controlled by C:\\Program Files\\LAPS\\CSE\\AdmPwd.dll
+* PowerShell commands are available: Get-Command \*AdmPwd\*
+* Who can read the passwords
+	* Find-AdmPwdExtendedRights
+* Extract Password
+	* Get-ADObject 'CN=ms-mcsadmpwd,CN=schema,CN=configuration,DC=aih,dc=local'
+
+**LAPS Exploitation**
+
+* Extract Password via PowerView in case ADMPwd.ps not available
+	* Get-DomainObject -Identity \<computer\> -Properties ms-mcs-admpwd
+* Set Manual Password
+	* Set-DomainObject -Identity \<computer\> -Set @{'ms-mcs-admpwd'=NewPassword'}
+* Set large expiry date on ms0Mcs-AdmPwdExpirationTime
+* No integrity check on admpwd.ps.dll (ergo replaceable by admin)
+	* C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\Modules\\AdmPwd.PS\\Admpwd.ps.dll
+
+### Active Directory
+
+**What data is useful?**
+
+* Domain password and account lockout policies
+* Details on our account and the permissions these have locally and within the domain
+* Details on obvious customized admin enabled user accounts
+* Customized groups including nesting and inheritance
+* Active Directory ACLs and delegated objects
+* Password management tools/utilities
+* Encrypted passwords in policies
+* Service accounts with SPNs
+* Sensitive data in scripts or config files
+* Domain trusts and types
+
+**Active Directory Recon**
+
+>ADRecon - https://github.com/adrecon/ADRecon
+
+* Uses Microsoft Remote Server Administration Tools (RSAT) else falls back to LDAP
+* Enumerates users, groups, computers, OUs, various permission assignments and generates useful statistics
+	* From a non-domain joined host
+		* ADRecon.ps1 -DomainController 192.168.3.215 -Credential plum\\bob
+
+**Active Directory Delegation**
+
+>“…Active Directory delegation is critical part of many organizations' IT infrastructure. By delegating administration, you can grant users or groups only the permissions they need without adding users to privileged groups (e.g., Domain Admins, Account Operators)…”*
+
+* What can be delegated?
+	* Read user information
+	* Create/manage users
+	* Create/manage groups
+	* Modify group memberships
+	* Reset passwords
+	* and much more through custom assignments
+* Custom tasks/permission assignments
+	* Extremely fine grained, allowing for specific delegation requirements
+
+**Active Directory Delegation: Why?**
+
+>Why should we take an interest in how an environment has been delegated?
+
+* Clued up organizations are minimizing the memberships of powerful groups such as domain admins/enterprise admins. Instead (as designed) they are assigning various delegation permissions such as ‘reset password’ to custom groups. If we compromise a user from one of these groups, we inherit these potentially powerful permissions.
+* We’re looking for mistakes, logical errors or even abuse ‘by design’ implementations.
+* Redundant, legacy and weak configurations may be in place and all but forgotten.
+
+**Active Directory Delegation: Audit**
+
+>Tools
+
+* Windows Remote Administration Toolkit https://www.microsoft.com/en-gb/download/details.aspx?id=45520
+* ADACL Scanner https://github.com/canix1/ADACLScanner
+* PowerView https://github.com/PowerShellMafia/PowerSploit/tree/dev/Recon
+* Windows attacking host with Admin Privileges (PowerShell)
+* NotSoSecure’s own custom powershell script https://github.com/NotSoSecure/AD_delegation_hunting
+
+* Import-Module ActiveDirectory: With a non-domain account / standalone system the AD drive connection will fail (errors will slightly differ depending on situation)
+
+![[Pasted image 20240804111443.png]]
+
+* Disable loading of the AD drive: $Env:ADPS_LoadDefaultDrive = 0
+* Run a query using a domain account
+	* Get-ADDomain -Server 192.168.3.215 -Credential "plum\\bob"
+
+![[Pasted image 20240804111544.png]]
+
+**AdminSDHolder and SDProp**
+
+* AdminsSDHolder is a container that exists in each AD domain
+* A Protected group is a group that is identified as privileged. This group and all its members should be protected from unintentional modifications.
+* When a group is marked as protected; AD will ensure that the owner, the ACLs, and the inheritance applied on this group are the same as those applied on AdminSDHolder container
+
+**AdminSDHolder: Who/What?**
+
+* Get-ADGroup -LDAPFilter "(admincount=1)" -Server 192.168.3.215 - Credential "plum\bob" | Select SamAccountName
+
+![[Pasted image 20240804115430.png]]
+
+* Get-ADUser -LDAPFilter "(admincount=1)" -Server 192.168.3.215 - Credential "plum\bob" | Select SamAccountName
+
+![[Pasted image 20240804115442.png]]
+
