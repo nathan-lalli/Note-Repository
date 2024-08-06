@@ -8,55 +8,18 @@
         "type": "tabs",
         "children": [
           {
-            "id": "c17e35818c5509b5",
+            "id": "b51e9cc0465f1a36",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BlackHat/Random Notes.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "2181d9aa9b9f4d64",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "BlackHat/Advanced Infrastructure Hacking.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "fbe6502a44739ee4",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Tool Box/Finding Files.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "9bd686d77b45d778",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Tool Box/Stabilize Shell.md",
+                "file": "BlackHat/Networking and Discovery.md",
                 "mode": "source",
                 "source": false
               }
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -106,8 +69,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 200
   },
   "right": {
     "id": "6162347b1c37e3a3",
@@ -123,7 +85,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "BlackHat/Advanced Infrastructure Hacking.md",
+                "file": "BlackHat/Networking and Discovery.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -140,7 +102,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "BlackHat/Advanced Infrastructure Hacking.md",
+                "file": "BlackHat/Networking and Discovery.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -163,7 +125,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "BlackHat/Advanced Infrastructure Hacking.md"
+                "file": "BlackHat/Networking and Discovery.md"
               }
             }
           }
@@ -185,24 +147,32 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "2181d9aa9b9f4d64",
+  "active": "b51e9cc0465f1a36",
   "lastOpenFiles": [
     "BlackHat/Random Notes.md",
-    "BlackHat/Advanced Infrastructure Hacking.md",
-    "Tool Box/Finding Files.md",
-    "Tool Box/Stabilize Shell.md",
-    "Pasted image 20240805161337.png",
-    "Pasted image 20240805160955.png",
-    "HTB/Windows Privilege Escalation.md",
+    "BlackHat/Web Technologies.md",
     "BlackHat/Scope.md",
-    "Pasted image 20240804115442.png",
-    "Pasted image 20240804115430.png",
-    "Pasted image 20240804111544.png",
-    "Pasted image 20240804111443.png",
-    "Pasted image 20240804105530.png",
-    "Pasted image 20240804094958.png",
-    "Pasted image 20240804094945.png",
-    "Pasted image 20240804094859.png",
+    "BlackHat/VPN Hacking.md",
+    "BlackHat/VLAN Hacking.md",
+    "BlackHat/Networking and Discovery.md",
+    "BlackHat/Hacking Windows.md",
+    "BlackHat/Databases.md",
+    "BlackHat/Containers.md",
+    "BlackHat/Cloud.md",
+    "BlackHat/Advanced Infrastructure Hacking.md",
+    "Pasted image 20240806151546.png",
+    "Pasted image 20240806145223.png",
+    "Pasted image 20240806122727.png",
+    "Pasted image 20240806122033.png",
+    "Pasted image 20240806121929.png",
+    "Pasted image 20240806115058.png",
+    "Pasted image 20240806115034.png",
+    "Pasted image 20240806114932.png",
+    "HTB/Windows Privilege Escalation.md",
+    "Pasted image 20240806114541.png",
+    "Pasted image 20240806114506.png",
+    "Tool Box/Stabilize Shell.md",
+    "Tool Box/Finding Files.md",
     "HTB Boxes/Office.md",
     "BlackHat",
     "Images/Untitled",
@@ -222,13 +192,6 @@
     "HTB Boxes/Visual.md",
     "HTB Boxes/Topology.md",
     "HTB Boxes/Soccer.md",
-    "HTB Boxes/Sandworm.md",
-    "HTB Boxes/PC.md",
-    "HTB Boxes/OnlyForYou.md",
-    "HTB Boxes/Keeper.md",
-    "HTB Boxes/Download.md",
-    "HTB Boxes/Intentions.md",
-    "HTB Boxes/Forest.md",
     "HTB Boxes",
     "Ghost VM",
     "GCT Stuff"
