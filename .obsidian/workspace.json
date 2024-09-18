@@ -4,47 +4,18 @@
     "type": "split",
     "children": [
       {
-        "id": "3e14cba03a442488",
+        "id": "c48d69e4335c2fcd",
         "type": "tabs",
         "children": [
           {
-            "id": "e72f4d9ebb290f15",
+            "id": "e02a91a3153f3664",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HTB/***REDACTED***/Letter of Engagement.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "5f03bf2c5893fae7",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HTB/***REDACTED***/Entry Point.md",
-                "mode": "source",
-                "source": false
-              }
-            }
-          },
-          {
-            "id": "69ef9e0fb1cac970",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "HTB/Cheatsheets/Hacking WordPress.md",
-                "mode": "source",
-                "source": false
-              }
+              "type": "empty",
+              "state": {}
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "vertical"
@@ -94,8 +65,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 423.5,
-    "collapsed": true
+    "width": 423.5
   },
   "right": {
     "id": "6162347b1c37e3a3",
@@ -111,7 +81,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "HTB/Cheatsheets/Hacking WordPress.md",
+                "file": "Images/***REDACTED*** 1/Pasted image 20240815111523.png",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -128,7 +98,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "HTB/Cheatsheets/Hacking WordPress.md",
+                "file": "Images/***REDACTED*** 1/Pasted image 20240815111523.png",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -151,7 +121,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "HTB/Cheatsheets/Hacking WordPress.md"
+                "file": "Images/***REDACTED*** 1/Pasted image 20240815111523.png"
               }
             }
           }
@@ -173,10 +143,22 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "69ef9e0fb1cac970",
+  "active": "b6b0732847033d36",
   "lastOpenFiles": [
-    "HTB/Cheatsheets/Attacking Web Applications with Ffuf.md",
+    "Images/***REDACTED*** 1/Pasted image 20240815134943.png",
+    "Images/***REDACTED*** 1",
+    "Images/***REDACTED*** 1/Pasted image 20240816112846.png",
+    "Images/***REDACTED*** 1/Pasted image 20240816110557.png",
+    "Images/***REDACTED*** 1/Pasted image 20240815130941.png",
+    "Images/***REDACTED*** 1/Pasted image 20240815132547.png",
+    "Images/***REDACTED*** 1/Pasted image 20240815131547.png",
+    "Images/***REDACTED*** 1/Pasted image 20240815113240.png",
+    "Images/***REDACTED*** 1/Pasted image 20240815113133.png",
+    "Images/***REDACTED*** 1/Pasted image 20240815112924.png",
+    "Images/***REDACTED*** 1/Pasted image 20240815112656.png",
     "HTB/Cheatsheets/Hacking WordPress.md",
+    "Images/Black",
+    "HTB/Cheatsheets/Attacking Web Applications with Ffuf.md",
     "HTB/***REDACTED***/Entry Point.md",
     "HTB/Cheatsheets/Network Enumeration with Nmap.md",
     "HTB/Cheatsheets/Footprinting.md",
@@ -190,23 +172,13 @@
     "Untitled 1",
     "Untitled",
     "BlackHat/Networking and Discovery.md",
-    "Pasted image 20240816112846.png",
-    "Pasted image 20240816110557.png",
     "HTB/Cheatsheets/SQL Injection Fundamentals.md",
     "HTB/Cheatsheets/Active Directory Enumeration & Attacks.md",
     "HTB Boxes/Office.md",
     "HTB/Cheatsheets/Getting Started.md",
     "HTB/Cheatsheets/SQLMap Essentials.md",
-    "sdfghj.png",
-    "Pasted image 20240815134943.png",
-    "Pasted image 20240815134918.png",
-    "Pasted image 20240815132547.png",
     "HTB/Cheatsheets/Linux Privilege Escalation.md",
     "Knowledge Base/Subdomain & Vhost Fuzzing.md",
-    "Pasted image 20240815131653.png",
-    "Pasted image 20240815131547.png",
-    "Pasted image 20240815130941.png",
-    "Pasted image 20240815130912.png",
     "HTB/***REDACTED***/Letter of Engagement.md",
     "Vuln Hub Boxes/Golden Eye.md",
     "Vuln Hub Boxes/Nully Cybersecurity.md",
@@ -215,11 +187,8 @@
     "HTB/***REDACTED***",
     "HTB/Untitled.md",
     "HTB/Cheatsheets/Windows Privilege Escalation.md",
-    "HTB/Cheatsheets/Shells & Payloads.md",
     "HTB/Cheatsheets",
     "BlackHat",
-    "Images/Dante",
-    "Images/Editorial",
-    "HTB Boxes/Dante"
+    "Images/Dante"
   ]
 }
