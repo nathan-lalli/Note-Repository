@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BlackHat/Advanced Infrastructure Hacking.md",
+                "file": "Knowledge Base/Active Directory/Delegation.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Advanced Infrastructure Hacking"
+              "title": "Delegation"
             }
           }
         ]
@@ -166,8 +166,15 @@
   },
   "active": "2288536e651658ab",
   "lastOpenFiles": [
+    "Knowledge Base/Active Directory/Trusts.md",
+    "Knowledge Base/Active Directory/Delegation.md",
+    "Knowledge Base/Misc/Convert Hex to ASCII.md",
+    "BlackHat/Advanced Infrastructure Hacking.md",
+    "Knowledge Base/Misc",
+    "Knowledge Base/Windows",
+    "Knowledge Base/Active Directory",
     "Untitled.base",
-    "Knowledge Base/Windows Privilege Escalation.md",
+    "Knowledge Base/Windows/Windows Privilege Escalation.md",
     "Code Projects/PowerShell/ADSI_Collector/LdapCollector.psm1",
     "Code Projects/PowerShell/ADSI_Collector/LdapCollector.psd1",
     "Code Projects/PowerShell/ADSI_Collector",
@@ -187,8 +194,6 @@
     "Images/***REDACTED***/Pasted image 20251111182240.png",
     "Images/***REDACTED***/Pasted image 20251111182208.png",
     "Images/***REDACTED***/Pasted image 20251111181321.png",
-    "Untitled",
-    "***REDACTED***",
     "***REDACTED***/Box 3.md",
     "***REDACTED***/Box 2.md",
     "***REDACTED***/Box 1.md",
@@ -196,8 +201,6 @@
     "HTB/Cheatsheets/Windows Privilege Escalation.md",
     "HTB/Cheatsheets/Active Directory Enumeration & Attacks.md",
     "***REDACTED***/AD/Box 1.md",
-    "Projects/ADSI_Collector/LdapCollector.psm1",
-    "Projects/ADSI_Collector/LdapCollector.psd1",
     "***REDACTED***/AD/Box 3.md",
     "Tool Box/Chisel.md",
     "HTB/Cheatsheets/Attacking Web Applications with Ffuf.md",
@@ -206,11 +209,8 @@
     "Boxes/Vuln Hub Boxes/Zico.md",
     "HTB/Cheatsheets/Password Attacks.md",
     "HTB/Cheatsheets/Linux Privilege Escalation.md",
-    "Knowledge Base/Port Forwarding.md",
+    "Knowledge Base/Misc/Port Forwarding.md",
     "HTB/Cheatsheets/Attacking Common Applications.md",
-    "Tool Box/Finding Files.md",
-    "Tool Box/Hydra.md",
-    "***REDACTED***/Untitled.md",
-    "***REDACTED***/AD.md"
+    "Tool Box/Finding Files.md"
   ]
 }
