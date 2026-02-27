@@ -4,17 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "ad1259ee9790fa16",
+        "id": "dac19de183df9e1d",
         "type": "tabs",
         "children": [
           {
-            "id": "25c264033022c39c",
+            "id": "2288536e651658ab",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "BlackHat/Advanced Infrastructure Hacking.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Advanced Infrastructure Hacking"
             }
           }
         ]
@@ -90,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Tool Box/Sshuttle.md",
+                "file": "Knowledge Base/Windows Privilege Escalation.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -100,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for Sshuttle"
+              "title": "Backlinks for Windows Privilege Escalation"
             }
           },
           {
@@ -109,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Tool Box/Sshuttle.md",
+                "file": "Knowledge Base/Windows Privilege Escalation.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from Sshuttle"
+              "title": "Outgoing links from Windows Privilege Escalation"
             }
           },
           {
@@ -142,8 +146,7 @@
               "title": "Outline of Sshuttle"
             }
           }
-        ],
-        "currentTab": 3
+        ]
       }
     ],
     "direction": "horizontal",
@@ -161,8 +164,15 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "25c264033022c39c",
+  "active": "2288536e651658ab",
   "lastOpenFiles": [
+    "Untitled.base",
+    "Knowledge Base/Windows Privilege Escalation.md",
+    "Code Projects/PowerShell/ADSI_Collector/LdapCollector.psm1",
+    "Code Projects/PowerShell/ADSI_Collector/LdapCollector.psd1",
+    "Code Projects/PowerShell/ADSI_Collector",
+    "Code Projects/PowerShell",
+    "Code Projects/New folder",
     "***REDACTED***/Console History.md",
     "***REDACTED***/Exploitation.md",
     "Images/***REDACTED***/Pasted image 20251111185558.png",
@@ -188,18 +198,12 @@
     "***REDACTED***/AD/Box 1.md",
     "Projects/ADSI_Collector/LdapCollector.psm1",
     "Projects/ADSI_Collector/LdapCollector.psd1",
-    "Projects/ADSI_Collector",
-    "Projects",
-    "Code Projects/Go/Rev Shell/remote_client_windows.go",
-    "Code Projects/Go/Rev Shell/remote_client_linux.go",
-    "Code Projects/Go/Rev Shell/remote_client_linux",
     "***REDACTED***/AD/Box 3.md",
     "Tool Box/Chisel.md",
     "HTB/Cheatsheets/Attacking Web Applications with Ffuf.md",
     "BlackHat/Networking and Discovery.md",
     "HTB/Cheatsheets/Login Brute Forcing.md",
-    "Vuln Hub Boxes/Zico.md",
-    "HTB/Windows Privilege Escalation.md",
+    "Boxes/Vuln Hub Boxes/Zico.md",
     "HTB/Cheatsheets/Password Attacks.md",
     "HTB/Cheatsheets/Linux Privilege Escalation.md",
     "Knowledge Base/Port Forwarding.md",

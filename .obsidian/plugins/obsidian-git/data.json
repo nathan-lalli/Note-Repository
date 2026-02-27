@@ -19,7 +19,7 @@
   "refreshSourceControl": true,
   "basePath": "../../../../../../../../../../Users/natha/obsidian_repo",
   "differentIntervalCommitAndPush": false,
-  "changedFilesInStatusBar": false,
+  "changedFilesInStatusBar": true,
   "showedMobileNotice": true,
   "refreshSourceControlTimer": 7000,
   "showBranchStatusBar": true,
