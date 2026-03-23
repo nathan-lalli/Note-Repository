@@ -4,39 +4,20 @@
     "type": "split",
     "children": [
       {
-        "id": "dac19de183df9e1d",
+        "id": "5a16ea6024e65336",
         "type": "tabs",
         "children": [
           {
-            "id": "2288536e651658ab",
+            "id": "696391ad9568294a",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "Knowledge Base/Misc/MySQL & MariaDB.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "MySQL & MariaDB"
-            }
-          },
-          {
-            "id": "870c70e6d593843f",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "README.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "README"
+              "title": "New tab"
             }
           }
-        ],
-        "currentTab": 1
+        ]
       }
     ],
     "direction": "vertical"
@@ -179,8 +160,19 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "870c70e6d593843f",
+  "active": "b6b0732847033d36",
   "lastOpenFiles": [
+    "BlackHat/Web Technologies.md",
+    "BlackHat/VPN Hacking.md",
+    "BlackHat/VLAN Hacking.md",
+    "BlackHat/Random Notes.md",
+    "BlackHat/Networking and Discovery.md",
+    "BlackHat/Hacking Windows.md",
+    "BlackHat/Databases.md",
+    "BlackHat/Containers.md",
+    "BlackHat/Cloud.md",
+    "BlackHat/Advanced Infrastructure Hacking.md",
+    "README.md",
     "AI/AI Pentest Tools.md",
     "Knowledge Base/Misc/MySQL & MariaDB.md",
     "AI",
@@ -189,7 +181,6 @@
     "Knowledge Base/Active Directory/Delegation.md",
     "Knowledge Base/Active Directory/Trusts.md",
     "Knowledge Base/Misc/Convert Hex to ASCII.md",
-    "BlackHat/Advanced Infrastructure Hacking.md",
     "Knowledge Base/Misc",
     "Knowledge Base/Windows",
     "Knowledge Base/Active Directory",
@@ -216,16 +207,6 @@
     "***REDACTED***/Box 3.md",
     "***REDACTED***/Box 2.md",
     "***REDACTED***/Box 1.md",
-    "***REDACTED***/AD/Box 2.md",
-    "HTB/Cheatsheets/Windows Privilege Escalation.md",
-    "HTB/Cheatsheets/Active Directory Enumeration & Attacks.md",
-    "***REDACTED***/AD/Box 1.md",
-    "***REDACTED***/AD/Box 3.md",
-    "HTB/Cheatsheets/Attacking Web Applications with Ffuf.md",
-    "BlackHat/Networking and Discovery.md",
-    "HTB/Cheatsheets/Login Brute Forcing.md",
-    "Boxes/Vuln Hub Boxes/Zico.md",
-    "HTB/Cheatsheets/Password Attacks.md",
-    "HTB/Cheatsheets/Linux Privilege Escalation.md"
+    "***REDACTED***/AD/Box 2.md"
   ]
 }

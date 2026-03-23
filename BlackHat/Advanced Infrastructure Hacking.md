@@ -1,1 +1,0 @@
-Drop all misconceptions and biases when going into an assessment
