@@ -711,7 +711,7 @@ The `p` test mode argument in mdk3 stands for Basic probing and ESSID Brute fo
 |`-s`|Set the speed (Default: unlimited, in Bruteforce mode: 300).|
 |`-b`|Use full brute-force mode (recommended for short SSIDs only). This switch is used to show its help screen|
 
-To bruteforce with all possible values, we can use `-b` as the `test_option` in mdk3. We can set the following options for it.
+To brute force with all possible values, we can use `-b` as the `test_option` in mdk3. We can set the following options for it.
 
 - upper case (u)
 - digits (n)
