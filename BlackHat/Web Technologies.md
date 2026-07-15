@@ -22,7 +22,7 @@
 * Git gives access to full history you can't hide data by removing it in next commit
 * Inspection of commit log can help in identifying such information (Manual / Automatic)
 
-![[Pasted image 20240803121951.png]]
+![Pasted image 20240803121951](../Images/Blackhat/Pasted%20image%2020240803121951.png)
 
 ### Insecure Deserialization
 

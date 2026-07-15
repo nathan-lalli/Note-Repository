@@ -3,7 +3,7 @@ johnsmithKey - 192.168.3.221
 
 bob:Summer15
 
-![[Pasted image 20240803140017.png]]
+![Pasted image 20240803140017](../Images/Blackhat/Pasted%20image%2020240803140017.png)
 
 bob:Summer24
 alice:Passwrod12345!

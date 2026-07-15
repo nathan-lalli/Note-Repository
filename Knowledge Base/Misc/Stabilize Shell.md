@@ -1,19 +1,35 @@
-This is what you can do to get a better stabilized shell that you can use arrow keys and other special options and key binds with
+---
+tags:
+  - knowledge-base
+category: misc
+---
 
-Step 1:
+# Stabilize Shell
+
+## Overview
+
+The standard sequence for turning a raw netcat/reverse shell into a fully interactive TTY that supports arrow keys, tab completion, Ctrl+C, and other special key binds.
+
+## Commands / Usage
+
+**Step 1** - spawn a pty:
 ```python
 python3 -c 'import pty;pty.spawn("/bin/bash")'
 ```
 
-Step 2:
- Do a ctrl-Z in the terminal to make the current process a background job 
+**Step 2** - background the current process with `Ctrl+Z`.
 
-Step 3:
+**Step 3** - fix terminal settings and foreground it again:
 ```bash
 stty raw -echo; fg
 ```
 
-Step 4:
+**Step 4** - set the terminal type:
 ```bash
 export TERM=xterm
 ```
+
+## Related
+
+- [TTY Shells](TTY%20Shells.md)
+- [Python](../../Tool%20Box/Python.md)

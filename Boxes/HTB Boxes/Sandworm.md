@@ -1,56 +1,63 @@
-IP Address: 10.10.11.218
+---
+tags:
+  - box
+platform: HTB
+os: Linux
+difficulty:
+date_completed:
+mitre_attack:
+status: in-progress
+---
 
-## Target Scanning
+## Target
 
-###   Tools Used:
+**IP Address:** 10.10.11.218
+
+## Recon
 
 #Nmap #Dirb #Sniper #Browser
-
-###   Findings:
-
-##### #Nmap 
 
 ```bash
 sudo nmap -T4 -O -sV -sC -p- -oN targetScan $ipAddress
 ```
 
-![[sandwormScan.png]]
+![sandwormScan](../../Images/Sandworm/sandwormScan.png)
+
+#### Findings
 
 Nmap scan shows us the following:
-    Port 22 - Open - OpenSSH 8.9p1
-    Port 80 - Open - http nginx 1.18.0
-    Port 443 - Open - ssl/http nginx 1.18.0
-
-##### #Dirb 
+- Port 22 - Open - OpenSSH 8.9p1
+- Port 80 - Open - http nginx 1.18.0
+- Port 443 - Open - ssl/http nginx 1.18.0
 
 ```bash
 dirb http://10.10.11.218
 ```
 
-##### #HTTP 
+#HTTP
 
-I went to the website and saw that the website is powered by "Flask"
-    Flask is a micro web framework for creating web APIs in Python
-
-##### #Sniper
+I went to the website and saw that the website is powered by "Flask." Flask is a micro web framework for creating web APIs in Python.
 
 ```bash
 sudo sniper -t ssa.htb
 ```
 
+## Enumeration
 
-##  Enumeration
+<!-- Not reached yet in these notes -->
 
-###    Tools Used:
+## Exploitation
 
+<!-- Not reached yet in these notes -->
 
-###    Commands Ran:
+## Privilege Escalation
 
-```
+<!-- Not reached yet in these notes -->
 
-```
+## Flags
 
-###    Findings:
+**User/Root:** not yet captured - the original notes had a "Root Access Obtained" header here with nothing underneath it, so leaving this unconfirmed rather than marking it rooted.
 
+## Lessons Learned
 
-##  Root Access Obtained
+<!-- Fill in once further along -->

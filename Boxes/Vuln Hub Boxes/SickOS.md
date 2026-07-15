@@ -1,251 +1,207 @@
-## Target Discovery
+---
+tags:
+  - box
+platform: VulnHub
+os: Linux
+difficulty:
+date_completed:
+mitre_attack: T1078, T1190, T1505.003, T1552.001
+status: rooted
+---
 
-###   Tools Used:
+## Target
 
-#Nmap 
-   
-###   Commands Ran:
+**IP Address:** 192.168.1.26
+
+## Recon
+
+### Host Discovery
+
+#Nmap
 
 ```bash
 sudo nmap -oN hostDiscovery -sn 192.168.1.0/24
 ```
 
-###   Findings:
+![hostDiscovery](../../Images/SickOS/hostDiscovery.png)
 
-![[hostDiscovery.png]]
+Target IP: 192.168.1.26
 
-Target IP Address:
-    192.168.1.26
+### Port Scan
 
-## Target Recon
-
-##### #Nmap 
+#Nmap
 
 ```bash
 sudo nmap -T4 -O -sV -sC --reason -p- -oA targetScan 192.168.1.26
 ```
 
-###   Findings:
+#### Findings
 
-| Port  | Service     | Version          |
-| ----- | ----------- | ---------------- |
-| 22    | SSH   | OpenSSH 5.9p1 |
-| 3128    | HTTP-Proxy   | Squid Http Proxy 3.1.19 |
-| 8080 | HTTP-Proxy | Showing as closed |
+| Port | Service | Version |
+|---|---|---|
+| 22 | SSH | OpenSSH 5.9p1 |
+| 3128 | HTTP-Proxy | Squid HTTP Proxy 3.1.19 |
+| 8080 | HTTP-Proxy | showing closed |
 
-Port 22 and 3128 are showing as open, but port 8080 is showing but says closed.
-    Could this be due to the http proxy?
+Port 8080 showing but closed - possibly related to the proxy setup.
 
-![[Images/SickOS/NmapScan.png]]
+![NmapScan](../../Images/SickOS/NmapScan.png)
 
-##### #SearchSploit 
+#SearchSploit
 
 ```bash
-searchsplot --nmap targetscan.xml
+searchsploit --nmap targetscan.xml
 ```
 
-### Findings:
+User enumeration should be possible through SSH. Squid has some associated exploits - needs more digging, plus a HackTricks page on Squid confirms it's a web proxy, so curl needs `--proxy`.
 
-I should be able to do user enumeration through SSH
-Squid has some exploits, but I will need to search more to see if they will be useful.
+#Browser
 
-Did a lookup on squid web proxy and found some CVEs associated with version 3.1.19
+Browsed to the IP/proxy port in Firefox - error page. Cache administrator is listed as "webmaster" - a possible username, though it turned out not valid over SSH.
 
-There is a hacktricks page on squid
-     Since squid is a web proxy, in order to curl it you have to provide the --proxy flag
+![initialWebAccessError](../../Images/SickOS/initialWebAccessError.png)
 
-
-##### #Browser 
-
-### Findings:
-
-I went to the IP address and proxy port in firefox and got an error page
-
-![[initialWebAccessError.png]]
-
-The most interesting thing here is that the cache administrator is said to be webmaster. This could be a username on the machine and we can verify with SSH
-    Webmaster is not a valid username
-
-##### #Curl 
+#Curl
 
 ```bash
 curl --proxy http://192.168.1.26:3128 http://192.168.1.26
 ```
 
-### Findings:
+Got real output - a single H1 header saying "BLEH!!!"
 
-![[defaultCurlProxy.png]]
+![defaultCurlProxy](../../Images/SickOS/defaultCurlProxy.png)
 
-I got real output from the page, but it is a single level 1 header saying "BLEH!!!"
-    Not sure what this means
-
-##### #ProxyChains
+#ProxyChains
 
 ```bash
 sudo vim /etc/proxychains4.conf
 ```
-*Add line: "http 192.168.1.26 3128" to the end of the file*
-
+*Add: `http 192.168.1.26 3128`*
 ```bash
 sudo proxychains nmap -T4 -O -sV -sC -p- -oA proxiedTargetScan 192.168.1.26
 ```
 
-### Findings:
+Didn't work for this scenario - got stuck in a loop regardless of settings tried.
 
-Using proxychains did not work for this. It just got stuck in a loop no matter what I tried
-
-##### #Spose
+#Spose
 
 ```bash
 git clone https://github.com/aancw/spose
 cd spose
-```
-
-```bash
 sudo python spose.py --proxy http://192.168.1.26:3128 --target 192.168.1.26
 ```
 
-### Findings:
+Found two ports open through the proxy: 22 and 80.
 
-Spose finds that there are two ports open
-    22 and 80
+![initialSposeScan](../../Images/SickOS/initialSposeScan.png)
 
-![[initialSposeScan.png]]
+## Enumeration
 
-##  Enumeration
+Reference used for proxied enumeration: https://infosecwriteups.com/proving-grounds-practice-squid-walkthrough-f761d2da973f
 
-I used the following as an example for how to use proxied services:
-    https://infosecwriteups.com/proving-grounds-practice-squid-walkthrough-f761d2da973f
+#FoxyProxy
 
-##### #FoxyProxy
+Set up a browser proxy and reached the "BLEHHH!!!" page again - nothing in comments/source, no other network resources.
 
-I set up a proxy in foxy proxy that will direct the traffic the right way and then went to the web address and got the page that just says "BLEHHH!!!"
-    There is nothing in the comments or source and no other network resources
+![proxiedBrowserAccess](../../Images/SickOS/proxiedBrowserAccess.png)
 
-![[proxiedBrowserAccess.png]]
+Robots.txt (through the proxy) disallows `/wolfcms`.
 
-Going to robots.txt on that page gives one bit of info
-    the page /wolfcms is disallowed
+![robots.txt](../../Images/SickOS/robots.txt.png)
 
-![[robots.txt.png]]
+`/wolfcms` returns a small, not-fully-set-up blog. WolfCMS = "Wolf Content Management Simplified" - a real piece of software, worth checking for vulnerabilities once the version is known.
 
-Going to /wolfcms through the proxy connections returns a small blog that does not seem to be fully set up.
-    wolfcms stands for Wold Content Management Simplified, Need to see if this is a real thing or if this is what the blog is called
+![WolfCMSHomepage](../../Images/SickOS/WolfCMSHomepage.png)
 
-![[WolfCMSHomepage.png]]
-
-## Target Recon
-
-Turns out this is a sample blog that is using wolfcms just as an example
-Wolfcms is a real software that people can use, need to see if it is vulnerable
-
-There are vulnerabilities in Wolf CMS but I am not sure what version this site is running and need to find out
-
-##### #Dirb 
+#Dirb
 
 ```bash
 dirb http://192.168.1.26:80/wolfcms/ -p 192.168.1.26:3128
 ```
 
-Using dirb with a proxy gave me some results with a docs folder that has some install instructions and references a ? in the url
+Found a `docs` folder with install instructions referencing a `?` in the URL.
 
-![[defaultDirb.png]]
+![defaultDirb](../../Images/SickOS/defaultDirb.png)
 
 ```bash
 dirb http://192.168.1.26:80/wolfcms/?/ -p 192.168.1.26:3128
 ```
 
-Using proxied dirb with the ? in the URL returned a hidden admin login screen
+With the `?` included, dirb (proxied) revealed a hidden admin login screen.
 
-![[extendedDirb.png]]
+![extendedDirb](../../Images/SickOS/extendedDirb.png)
 
-##### #Browser 
+#Browser
 
-Going to 192.168.1.26/wolfcms/?/admin gives an admin log in screen
+`192.168.1.26/wolfcms/?/admin` gives an admin login. Default creds `admin:admin` worked.
 
-![[adminLogin.png]]
+![adminLogin](../../Images/SickOS/adminLogin.png)
 
-Trying default credentials was able to get me into the admin page
-    username:admin
-    password:admin
+Admin home screen confirms Wolf CMS version 0.8.2.
 
-After logging in it takes you to the default admin page
+![adminPage](../../Images/SickOS/adminPage.png)
 
-![[adminPage.png]]
+## Exploitation
 
-On the admin page home screen it shows that it is using version Wolf CMS 0.8.2
-
-## Enumeration
-
-Looking up vulnerabilities on Wolf CMS 0.8.2 I found a file upload and RCE vulnerability with PHP
-
-After going to the files tab seen on the admin page you can upload a file there with no restrictions that then gets put in the /wolfcms/public folder for anyone to access
+Wolf CMS 0.8.2 has a known file upload + PHP RCE vulnerability. The Files tab on the admin page allows uploads with no restrictions, landing in `/wolfcms/public` - publicly accessible.
 
 #Reverse_Shell #PHP
 
 ![[phpReverseShell.php]]
 
-I uploaded the above reverse shell and created a listener on my machine with
+*(Note: this reference doesn't resolve to a file actually present in this repo - the PHP reverse shell used was very likely the standard pentestmonkey php-reverse-shell.php, edited with the attack box IP/port, but the file itself was never committed here. Worth re-adding it under Tool Box or a shells/ folder if you want this write-up to be reproducible.)*
+
+Uploaded the reverse shell, set up a listener:
+
 ```bash
 nc -lvnp 4444
 ```
 
-I then went to http://192.168.1.26\wolfcms\public and then clicked on the uploaded file and got a response back in my listener with a reverse shell
-
-I got a shell with no TTY so I ran a TTY shell to get a better and more stable shell
+Browsed to `http://192.168.1.26/wolfcms/public` and clicked the uploaded file - got a connection back. No TTY initially:
 
 ```python
 python -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-![[shellAchieved.png]]
+![shellAchieved](../../Images/SickOS/shellAchieved.png)
 
-I tried to run sudo -l but I do not have a password to use it with
+## Privilege Escalation
 
-##### #Linpeas 
+`sudo -l` needs a password not currently available.
 
-Running linpeas showed a list of exploits because the kernel is a very low and vulnerable version
-    May be able to exploit these but I want to look and see if there is anything else
+#Linpeas
 
-##### #Sticky_Bit 
+Kernel version is very low/vulnerable - several exploits listed, kept as a fallback option.
+
+#Sticky_Bit
 
 ```bash
 find / -perm -4000 -type f -exec ls -al {} \; 2>/dev/null
 ```
 
-Found the command /usr/bin/at that has the sticky bit set, I am not sure if this is exploitable yet, but I have never seen it before so I think it is interesting 
+Found `/usr/bin/at` with the sticky bit set - unusual, and there's a known ExploitDB entry for the `at` command (https://www.exploit-db.com/exploits/281).
 
-There is an exploit for the "at" command on ExploitDB 
-    https://www.exploit-db.com/exploits/281
+#www-data
 
-##### #www-data
+Found `/var/www/wolfcms/config.php` with MySQL credentials: `root:john@123`.
 
-Inside of the www-data folder I found a config.php file that has mysql credentials in it
-    /var/www/wolfcms/config.php
-    root:john@123
+![mysqlCreds](../../Images/SickOS/mysqlCreds.png)
 
-![[mysqlCreds.png]]
+Nothing new in the databases themselves (just hashed passwords already known).
 
-There was nothing interesting in the databases because it was hashed passwords that were passwords I already have
+## Flags
 
+Tried switching to the `sickos` user with every password gathered so far (admin, blank, sickos, BLEHHH!!!, john@123) - `john@123` worked (password reuse from the MySQL config).
 
-##  Root Access Obtained
+![sickosLoggedIn](../../Images/SickOS/sickosLoggedIn.png)
 
-After not finding anything I tried to switch users to sickos using the passwords that I had obtained so far.
-    admin
-    blank
-    sickos
-    BLEHHH!!!
-    john@123
+`sudo -l` as sickos showed full sudo rights - `sudo su` to root.
 
-john@123 worked and let me in as sickos
+**Root/System:** captured.
 
-![[sickosLoggedIn.png]]
+![changedToRoot](../../Images/SickOS/changedToRoot.png)
+![rootFlag](../../Images/SickOS/rootFlag.png)
 
-Once logged in I checked my sudo permissions with "sudo -l" and saw that I had a full sudo user on the machine and did a "sudo su" to change to root
+## Lessons Learned
 
-![[changedToRoot.png]]
-
-Once on as root I was able to read the flag in the root directory
-
-![[Images/SickOS/rootFlag.png]]
+Squid proxy in front of a target is just an extra hop to route through (`--proxy` with curl, FoxyProxy in-browser, or tools like `spose` built specifically for scanning through a proxy) - it doesn't change the underlying enumeration approach much. Password reuse (the CMS's MySQL config password also being the OS user's password) is what actually closed this one out - always try every credential found anywhere on the box against every other login prompt.

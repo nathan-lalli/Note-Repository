@@ -1,6 +1,14 @@
+---
+tags:
+  - knowledge-base
+category: wifi
+---
+
+# Aircrack-ng
+
 [Aircrack-ng](https://github.com/aircrack-ng/aircrack-ng) comprises a comprehensive suite of tools designed for the evaluation of Wi-Fi network security. Prior to initiating any endeavors to analyze or exploit wireless networks, a foundational understanding of the functionalities inherent within these tools is imperative.
 
-Aircrack-ng focuses on different areas of WiFi security:
+Aircrack-ng focuses on different areas of Wi-Fi security:
 
 - `Monitoring`: Packet capture and export of data to text files for further processing by third party tools.
 - `Attacking`: Replay attacks, de-authentication, fake access points and others via packet injection.

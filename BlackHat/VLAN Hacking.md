@@ -1,6 +1,6 @@
 
 
-![[Pasted image 20240806093842.png]]
+![Pasted image 20240806093842](../Images/Blackhat/Pasted%20image%2020240806093842.png)
 
 ### VLAN Discovery
 
@@ -17,7 +17,7 @@
 
 #### VLAN: Trunking
 
-![[Pasted image 20240806094027.png]]
+![Pasted image 20240806094027](../Images/Blackhat/Pasted%20image%2020240806094027.png)
 
 #### VLAN: 802.1Q Tagging
 
@@ -49,7 +49,7 @@
 * Generally used for Ports connecting two switches
 * Dynamic auto is the default in newer Cisco IOS; whereas Dynamic Desirable is the default in older revisions
 
-![[Pasted image 20240806094543.png]]
+![Pasted image 20240806094543](../Images/Blackhat/Pasted%20image%2020240806094543.png)
 
 * Unauthenticated Protocol: Anyone can send false DTP packets
 
@@ -67,7 +67,7 @@
 * Attack by mimicking a Switch
 * Leverage issues with DTP configuration to gain trunk port
 
-![[Pasted image 20240806094831.png]]
+![Pasted image 20240806094831](../Images/Blackhat/Pasted%20image%2020240806094831.png)
 
 #### VLAN Hopping: Attack
 
@@ -94,7 +94,7 @@
 * Need access to native VLAN and access ports
 * One way traffic Solution (Negative)
 
-![[Pasted image 20240806111635.png]]
+![Pasted image 20240806111635](../Images/Blackhat/Pasted%20image%2020240806111635.png)
 
 **Double Tagging: Example**
 
@@ -105,7 +105,7 @@
 * Scapy One Liner
 	* sendp(Ether(dst='ff:ff:ff:ff:ff:ff’, src='c2:db:bd:5d:bf:02')/Dot1Q(vlan=1)/Dot1Q(vlan=20)/IP(dst='10.0.20.11', src='10.0.1.11')/ICMP())
 
-![[Pasted image 20240806111759.png]]
+![Pasted image 20240806111759](../Images/Blackhat/Pasted%20image%2020240806111759.png)
 
 #### Double Tagging: Things to Remember
 

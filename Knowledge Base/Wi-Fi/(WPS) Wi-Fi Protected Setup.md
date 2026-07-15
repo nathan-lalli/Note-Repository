@@ -1,5 +1,6 @@
 ---
 tags:
+  - knowledge-base
   - reaver
   - bully
   - wpspin
@@ -10,7 +11,9 @@ tags:
   - wpa_cli
   - mdk4
   - wps
+category: wifi
 ---
+
 ## Overview
 
 WPS is susceptible to online PIN cracking and offline PIN cracking methods. WPS utilizes a series of EAP messages exchanged between a station (enrollee) and an access point (registrar). During this process, valuable information is disclosed; information that can be exploited for these attack methods. While traditional online PIN cracking takes hours to complete, offline PIN cracking can be as quick as a few minutes when the access point is vulnerable.
@@ -52,7 +55,7 @@ There are several methods for WPS to begin the series of EAP messages. Commonly 
 
 The WPS PIN is eight digits in length and consists of two primary portions. The first portion is used in the M4 and M5 EAP messages, and the second portion is used in the M6 and M7 EAP messages. Each of these portions is four digits in length. Most would assume that there would be 100,000,000 (108) possible digit combinations, but in the case of WPS, this is not true. There are only 11,000 possible combinations.
 
-![[wps_pin.png]]
+![wps_pin](../../Images/HTB/wps_pin.png)
 
 This is due to how the PIN functions. The first half only has 104 possible combinations and the second half has only 103 possible combinations. The last digit of the second half is used as a checksum and can be easily calculated. Therefore, there are only 10,000 (104) + 1,000(103) possible digit combinations, which is 11,000 total combinations.
 
@@ -79,7 +82,7 @@ This is due to how the PIN functions. The first half only has 104 possible comb
 
 The series of EAP messages from a high level looks like the following:
 
-![[eap_message_series.png]]
+![eap_message_series](../../Images/HTB/eap_message_series.png)
 
 Each of these messages is responsible for disclosing different information, and they conduct the following.
 

@@ -1,51 +1,64 @@
+---
+tags:
+  - box
+platform: HTB
+os: Windows
+difficulty:
+date_completed:
+mitre_attack:
+status: in-progress
+---
+
+## Target
+
+**IP Address:** 10.129.237.101
+
 ## Recon
 
-**IP Address: 10.129.237.101**
-
-#Nmap 
+#Nmap
 
 ```bash
 sudo nmap -T4 -sV -O -sC -p- -oA targetScan 10.129.237.101
 ```
 
-###   Findings:
+#### Findings
 
-| Port  | Service     | Version          |
-| ----- | ----------- | ---------------- |
-| 80    | http   | Apache httpd 2.4.56 |
+| Port | Service | Version |
+|---|---|---|
+| 80 | http | Apache httpd 2.4.56 |
 
-Nmap was able to find the this is a Windows server 2019 
-The server is running only port 80 open and it is an Apache server
+Nmap identified this as a Windows Server 2019 host. Only port 80 is open, running Apache.
 
-![[visualHomePage.png]]
+![visualHomePage](../../Images/Visual/visualHomePage.png)
 
-Navigating to the IP in my browser brought me to the homepage for the site.
+Navigating to the IP in the browser brought up the homepage for the site. This server says it will compile your programs for you if you send it a git repo URL, then gives you the executables and DLLs you need.
 
-This server says that it is going to compile your programs for you if you send them your git repo url and then it will give you the executables and DLLs that you need.
-
-Interesting things on the homepage
-    Text box to enter git repo url
+Interesting things on the homepage: a text box to enter a git repo URL.
 
 #wappalyzer
 
-![[wappalyzerOutput.png]]
+![wappalyzerOutput](../../Images/Visual/wappalyzerOutput.png)
 
-Using wappalyzer, I was able to find that the box is running the following software
-    Bootstrap
-    Apache
-    PHP
-    OpenSSL
-
-Now that I know that the server is running PHP I might be able to get a webshell or reverse shell using PHP
+Using Wappalyzer, found the box is running: Bootstrap, Apache, PHP, OpenSSL. Since the server runs PHP, there might be a route to a webshell or reverse shell via PHP.
 
 ## Enumeration
 
-###    Findings:
+Tried entering the word "test" into the text box - was told it had to be a URL. Formatting it as `http://test.com` was accepted.
 
-I tried entering the word "test" into the text box and was told that it had to be a url
-    For it to take my input I had to do "http://test.com" 
+![enteringURL](../../Images/Visual/enteringURL.png)
 
-I tried to enter a url in the text box and got the following when I submitted it
+## Exploitation
 
-![[enteringURL.png]]
+<!-- Not reached yet in these notes - next step is likely standing up a malicious git repo (e.g. a project file with a build event / pre-build command) since the server clones and compiles arbitrary git repos -->
 
+## Privilege Escalation
+
+<!-- Not reached yet in these notes -->
+
+## Flags
+
+**User/Root:** not yet captured in these notes
+
+## Lessons Learned
+
+<!-- Fill in once further along - "compile my git repo for me" services are a strong signal to look at MSBuild/csproj pre-build events or similar build-time code execution rather than the compiled output itself -->
