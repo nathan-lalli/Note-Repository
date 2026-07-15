@@ -83,13 +83,13 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 **Different Types of MiTM - IPv6**
 
 * Neighbor Advertisement (NA) spoofing
-![[Pasted image 20240803181401.png]]
+![Pasted image 20240803181401](../Images/Blackhat/Pasted%20image%2020240803181401.png)
 
 * Router Advertisement (RA) spoofing
-![[Pasted image 20240803181410.png]]
+![Pasted image 20240803181410](../Images/Blackhat/Pasted%20image%2020240803181410.png)
 
 * Rouge DHCPv6 Server
-![[Pasted image 20240803181430.png]]
+![Pasted image 20240803181430](../Images/Blackhat/Pasted%20image%2020240803181430.png)
 
 **Possible Tools**
 
@@ -102,7 +102,7 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 * A client requests the 'wpad.dat' or 'proxy.pac' file which contains instructions on connecting to a proxy server including web traffic routing rules
 * Once this process is completed, all web traffic will route through the attacker proxy server
 * Post impersonation of DNS server
-![[Pasted image 20240803181812.png]]
+![Pasted image 20240803181812](../Images/Blackhat/Pasted%20image%2020240803181812.png)
 
 **Mitigations**
 
@@ -115,11 +115,11 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 
 **Simplified AMSI Architecture**
 
-![[Pasted image 20240804094209.png]]
+![Pasted image 20240804094209](../Images/Blackhat/Pasted%20image%2020240804094209.png)
 
 **AMSI_RESULT Values**
 
-![[Pasted image 20240804094237.png]]
+![Pasted image 20240804094237](../Images/Blackhat/Pasted%20image%2020240804094237.png)
 
 **Limitations of AMSI Provider Checks**
 
@@ -136,14 +136,14 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 * PowerShell find code signature with AmsiTrigger
 * Manually adjust the code to bypass signature-based threat detection mechanisms
 
-![[Pasted image 20240804094446.png]]
+![Pasted image 20240804094446](../Images/Blackhat/Pasted%20image%2020240804094446.png)
 
 **Opportunities to Disable AMSI**
 
 * AMSI is loaded into the address space of the attacker-created process
 * Each component can be tampered with to break the chain
 
-![[Pasted image 20240804094550.png]]
+![Pasted image 20240804094550](../Images/Blackhat/Pasted%20image%2020240804094550.png)
 
 **Tampering with Consumers: PowerShell**
 
@@ -152,11 +152,11 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 * amsiInitFailed
 * amsiContext
 
-![[Pasted image 20240804094644.png]]
+![Pasted image 20240804094644](../Images/Blackhat/Pasted%20image%2020240804094644.png)
 
 * Force set amsiInitFailed to True
 
-![[Pasted image 20240804094710.png]]
+![Pasted image 20240804094710](../Images/Blackhat/Pasted%20image%2020240804094710.png)
 
 **Tampering with amsi.dll**
 
@@ -166,25 +166,25 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 * Alternate ways to locate functions: Function Offsets & Egg Hunter
 * Drawback: Detected by scanners looking for amsi.dll code patches at runtime
 
-![[Pasted image 20240804094829.png]]
+![Pasted image 20240804094829](../Images/Blackhat/Pasted%20image%2020240804094829.png)
 
 **Patching AmsiOpenSession**
 
 * Craft your own patch
 
-![[Pasted image 20240804094859.png]]
+![Pasted image 20240804094859](../Images/Blackhat/Pasted%20image%2020240804094859.png)
 
 **Patching AmsiOpenSession**
 
 * Find the offset of address to be patched -> convert from hex to decimal
 
-![[Pasted image 20240804094945.png]]
+![Pasted image 20240804094945](../Images/Blackhat/Pasted%20image%2020240804094945.png)
 
-![[Pasted image 20240804094958.png]]
+![Pasted image 20240804094958](../Images/Blackhat/Pasted%20image%2020240804094958.png)
 
 ### Windows Authentication/Pass the Hash
 
-![[Pasted image 20240804105530.png]]
+![Pasted image 20240804105530](../Images/Blackhat/Pasted%20image%2020240804105530.png)
 
 >Windows systems allow authentication using hashes - we don’t need the plaintext password!
 
@@ -299,13 +299,13 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 
 * Import-Module ActiveDirectory: With a non-domain account / standalone system the AD drive connection will fail (errors will slightly differ depending on situation)
 
-![[Pasted image 20240804111443.png]]
+![Pasted image 20240804111443](../Images/Blackhat/Pasted%20image%2020240804111443.png)
 
 * Disable loading of the AD drive: $Env:ADPS_LoadDefaultDrive = 0
 * Run a query using a domain account
 	* Get-ADDomain -Server 192.168.3.215 -Credential "plum\\bob"
 
-![[Pasted image 20240804111544.png]]
+![Pasted image 20240804111544](../Images/Blackhat/Pasted%20image%2020240804111544.png)
 
 **AdminSDHolder and SDProp**
 
@@ -317,9 +317,9 @@ NDP is a protocol responsible for discovering and maintaining the neighbor devic
 
 * Get-ADGroup -LDAPFilter "(admincount=1)" -Server 192.168.3.215 - Credential "plum\bob" | Select SamAccountName
 
-![[Pasted image 20240804115430.png]]
+![Pasted image 20240804115430](../Images/Blackhat/Pasted%20image%2020240804115430.png)
 
 * Get-ADUser -LDAPFilter "(admincount=1)" -Server 192.168.3.215 - Credential "plum\bob" | Select SamAccountName
 
-![[Pasted image 20240804115442.png]]
+![Pasted image 20240804115442](../Images/Blackhat/Pasted%20image%2020240804115442.png)
 

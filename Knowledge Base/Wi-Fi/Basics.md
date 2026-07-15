@@ -1,3 +1,11 @@
+---
+tags:
+  - knowledge-base
+category: wifi
+---
+
+# Wi-Fi Basics
+
 ## Authentication Types
 
 Main Authentication Types:

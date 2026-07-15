@@ -32,7 +32,7 @@ General Ports/Protocols
 
 #### VPN: IPSec Hierarchy
 
-![[Pasted image 20240806085227.png]]
+![Pasted image 20240806085227](../Images/Blackhat/Pasted%20image%2020240806085227.png)
 
 #### VPN: IKE Connection Mode
 
@@ -45,13 +45,13 @@ General Ports/Protocols
 
 #### VPN: Main Mode vs Aggressive Mode
 
-![[Pasted image 20240806085449.png]]
+![Pasted image 20240806085449](../Images/Blackhat/Pasted%20image%2020240806085449.png)
 
 #### VPN: Attribute Selection
 
 * The first mutually acceptable attribute is selected for use
 
-![[Pasted image 20240806085527.png]]
+![Pasted image 20240806085527](../Images/Blackhat/Pasted%20image%2020240806085527.png)
 
 #### VPN: What to Use and What Not to Use
 

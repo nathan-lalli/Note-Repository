@@ -16,11 +16,11 @@
 
 ### Types of Cloud Services
 
-![[Pasted image 20240806114506.png]]
+![Pasted image 20240806114506](../Images/Blackhat/Pasted%20image%2020240806114506.png)
 
 ### Shared Responsibility Model
 
-![[Pasted image 20240806114541.png]]
+![Pasted image 20240806114541](../Images/Blackhat/Pasted%20image%2020240806114541.png)
 
 ### Why Cloud Security Matters
 
@@ -34,15 +34,15 @@
 
 ### Infra Security
 
-![[Pasted image 20240806114932.png]]
+![Pasted image 20240806114932](../Images/Blackhat/Pasted%20image%2020240806114932.png)
 
 ### Conventional Infra vs Cloud Offerings
 
-![[Pasted image 20240806115034.png]]
+![Pasted image 20240806115034](../Images/Blackhat/Pasted%20image%2020240806115034.png)
 
 ### Traditional Infra vs Cloud Mapping
 
-![[Pasted image 20240806115058.png]]
+![Pasted image 20240806115058](../Images/Blackhat/Pasted%20image%2020240806115058.png)
 
 ## Enumeration
 
@@ -80,13 +80,13 @@
 
 * Wordlist based DNS Scanner [dnsscan](https://github.com/rbsec/dnscan)
 
-![[Pasted image 20240806121929.png]]
+![Pasted image 20240806121929](../Images/Blackhat/Pasted%20image%2020240806121929.png)
 
 #### Cloud Enum
 
 * [cloud_enum](https://github.com/initstring/cloud_enum)
 
-![[Pasted image 20240806122033.png]]
+![Pasted image 20240806122033](../Images/Blackhat/Pasted%20image%2020240806122033.png)
 
 #### Google Dorking for Cloud
 
@@ -102,7 +102,7 @@
 * crt.sh
 * censys.io
 
-![[Pasted image 20240806122727.png]]
+![Pasted image 20240806122727](../Images/Blackhat/Pasted%20image%2020240806122727.png)
 
 ## Cloud Service Attack Services
 
@@ -225,7 +225,7 @@ curl -H "X-aws-ec2-metadata-token: $TOKEN" -v http://169.254.169.254/latest/meta
 
 #### FaaS: Flow
 
-![[Pasted image 20240806145223.png]]
+![Pasted image 20240806145223](../Images/Blackhat/Pasted%20image%2020240806145223.png)
 
 **Trigger**: Any event which can be integrated as a trigger for f(x)
 **Action**: Result of the f(x) could be a call to another f(x) or API
@@ -342,7 +342,7 @@ curl -l https://<storagename>.blob.core.windows.net/<container>?restype=containe
 * Azure storage account contains Blobs, Queues, Tables, and files (shared folder or drive) as storage types
 * Azure allows creation of URLs with specific access to storage accounts
 
-![[Pasted image 20240806151546.png]]
+![Pasted image 20240806151546](../Images/Blackhat/Pasted%20image%2020240806151546.png)
 
 ### Understanding the Attack Surfaces: CaaS
 

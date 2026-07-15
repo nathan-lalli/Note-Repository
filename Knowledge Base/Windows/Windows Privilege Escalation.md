@@ -1,3 +1,9 @@
+---
+tags:
+  - knowledge-base
+category: windows
+---
+
 # Windows Privilege Escalation
 
 ## Useful Tools
