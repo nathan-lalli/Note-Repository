@@ -3,7 +3,6 @@ tags:
   - knowledge-base
 category: linux
 ---
-
 ## Overview
 
 APT is what controls the packages installed on Debian, and a few other, Linux distros.
