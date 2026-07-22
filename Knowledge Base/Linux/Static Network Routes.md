@@ -45,3 +45,6 @@ sudo nmcli conn up "Network Name"
 ```
 
 We now have a route to the 10.0.0.0/24 subnet through the host 192.168.1.2 on the network with the name "Network Name"
+
+> [!INFO] If the route doesn't work right away
+> Run `sudo nmcli conn reload` to restart the network manager completely
