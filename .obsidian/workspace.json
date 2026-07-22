@@ -157,16 +157,17 @@
             "state": {
               "type": "outline",
               "state": {
+                "file": "Knowledge Base/Wi-Fi/Evil Twin.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline"
+              "title": "Outline of Evil Twin"
             }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "horizontal",
@@ -187,10 +188,12 @@
   },
   "active": "1eb1e25047b8e568",
   "lastOpenFiles": [
+    "Knowledge Base/Wi-Fi/Evil Twin.md",
+    "Images/HTB/external_rogue_ap.png",
+    "Images/HTB/wired_rogue_ap.png",
     "Knowledge Base/Linux/Static Network Routes.md",
     "Templates/Knowledge Base Template.md",
     "Knowledge Base/Linux/APT.md",
-    "Knowledge Base/Wi-Fi/Evil Twin.md",
     "Knowledge Base/Wi-Fi/Untitled.md",
     "Knowledge Base/Wi-Fi/(WPA(2)) Wi-Fi Protected Access Enterprise.md",
     "Knowledge Base/Wi-Fi/(WPA(2)) Wi-Fi Protected Access Personal.md",
@@ -204,8 +207,6 @@
     "Images/HTB/4-way-handshake.png",
     "Images/HTB/eap_eviltwin_visual.png",
     "Images/HTB/eap_message_series.png",
-    "Images/HTB/wep_encryption_algorithm_overview.png",
-    "Images/HTB/wireshark_message_3.png",
     "Knowledge Base/Wi-Fi/(WEP) Wired Equivalent Privacy.md",
     "README.md",
     "Knowledge Base/Misc/Port Forwarding.md",
@@ -231,7 +232,6 @@
     "Knowledge Base/Misc/Finding Files.md",
     "Tool Box/MetaSploit.md",
     "HTB/Cheatsheets.md",
-    "Boxes.md",
-    "Knowledge Base/Wi-Fi/Aircrack-ng.md"
+    "Boxes.md"
   ]
 }
