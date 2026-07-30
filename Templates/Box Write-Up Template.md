@@ -1,12 +1,12 @@
 ---
 tags:
   - box
-platform: # HTB / VulnHub / other
-os: # Windows / Linux
-difficulty: # Easy / Medium / Hard / Insane
-date_completed: # YYYY-MM-DD
-mitre_attack: # e.g. T1110, T1558.003 - fill in as techniques are used below
-status: # in-progress / rooted
+platform:
+os:
+difficulty:
+date_completed:
+mitre_attack:
+status:
 ---
 
 ## Target
