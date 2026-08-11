@@ -20,7 +20,7 @@ status:
 ### Port Scan
 
 ```bash
-sudo nmap -T4 -O -sV -sC -p- -oA targetScan <target>
+nmap -T4 -O -Pn -v -sV -sC -p- -oA targetScan <target>
 ```
 
 #### Findings

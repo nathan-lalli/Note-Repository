@@ -16,17 +16,17 @@
 
 ## Filtered Character Bypass
 
-| Code | Description |
-| ----- | ----- |
-| `printenv` | Can be used to view all environment variables |
-| **Spaces** |
-| `%09` | Using tabs instead of spaces |
-| `${IFS}` | Will be replaced with a space and a tab. Cannot be used in sub-shells (i.e. `$()`) |
-| `{ls,-la}` | Commas will be replaced with spaces |
-| **Other Characters** |
-| `${PATH:0:1}` | Will be replaced with `/` |
-| `${LS_COLORS:10:1}` | Will be replaced with `;` |
-| `$(tr '!-}' '"-~'<<<[)` | Shift character by one (`[` -> `\`) |
+| Code                    | Description                                                                        |
+| ----------------------- | ---------------------------------------------------------------------------------- |
+| `printenv`              | Can be used to view all environment variables                                      |
+| **Spaces**              |                                                                                    |
+| `%09`                   | Using tabs instead of spaces                                                       |
+| `${IFS}`                | Will be replaced with a space and a tab. Cannot be used in sub-shells (i.e. `$()`) |
+| `{ls,-la}`              | Commas will be replaced with spaces                                                |
+| **Other Characters**    |                                                                                    |
+| `${PATH:0:1}`           | Will be replaced with `/`                                                          |
+| `${LS_COLORS:10:1}`     | Will be replaced with `;`                                                          |
+| `$(tr '!-}' '"-~'<<<[)` | Shift character by one (`[` -> `\`)                                                |
 
 ---
 ## Blacklisted Command Bypass
