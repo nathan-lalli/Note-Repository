@@ -8,17 +8,31 @@
         "type": "tabs",
         "children": [
           {
-            "id": "8154648efc17fee0",
+            "id": "9a701152483276d5",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "BlackHat/2026/Internal Network Pivoting - Linux.md",
+                "file": "Boxes/HTB Boxes/DanglingTree.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Internal Network Pivoting - Linux"
+              "title": "DanglingTree"
+            }
+          },
+          {
+            "id": "935a418f1cc96229",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Tool Box/Chisel.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Chisel"
             }
           }
         ]
@@ -186,11 +200,28 @@
       "bases:Create new base": false
     }
   },
-  "active": "8154648efc17fee0",
+  "active": "9a701152483276d5",
   "lastOpenFiles": [
+    "Tool Box/Chisel.md",
+    "Knowledge Base/Misc/Port Forwarding.md",
+    "Tool Box/Ldapsearch.md",
+    "HTB/Cheatsheets/Attacking Common Services.md",
+    "Boxes/HTB Boxes/DanglingTree.md",
+    "Images/DanglingTree/netstat_internal_ports.png",
+    "Images/DanglingTree/reverse_shell_wac_api.png",
+    "Images/DanglingTree/whoami_wac_api.png",
+    "Images/DanglingTree/wac_logged_in.png",
+    "Images/DanglingTree/testing_credentials.png",
+    "Images/DanglingTree/discovered_credentials.png",
+    "Images/DanglingTree/smb_enumeration.png",
+    "Knowledge Base/Misc/Subdomain & Vhost Fuzzing.md",
+    "Images/DanglingTree",
+    "Images/DanglingTree/windows_admin_center.png",
+    "Boxes/HTB Boxes/DarkZeroReturns.md",
+    "Boxes/HTB Boxes/Devel.md",
+    "BlackHat/2026/Internal Network Pivoting - Linux.md",
     "BlackHat/2026/Compromise the Perimeter.md",
     "BlackHat/2026/Identity Compromise.md",
-    "BlackHat/2026/Internal Network Pivoting - Linux.md",
     "BlackHat/2026/Cross Network Pivoting.md",
     "BlackHat/2026/Reconnaissance.md",
     "BlackHat/2026/Adversary Ops.md",
@@ -200,31 +231,14 @@
     "BlackHat/2026/Missions/Mission 3.md",
     "BlackHat/2026/Missions/Mission 2.md",
     "BlackHat/2026/Missions/Mission 1.md",
-    "Tool Box/Ldapsearch.md",
     "Images/Blackhat/2026/Pasted image 20260803164050.png",
     "Images/Blackhat/2026/Screenshot 2026-08-03 113231.png",
     "Images/Blackhat/2026",
-    "Images/Blackhat/2026/Pasted image 20260803163938.png",
-    "Images/Blackhat/2026/Pasted image 20260803163900.png",
-    "Images/Blackhat/2026/Pasted image 20260803163114.png",
-    "Images/Blackhat/2026/Pasted image 20260803163048.png",
-    "Images/Blackhat/2026/Pasted image 20260803163037.png",
-    "Images/Blackhat/2026/Pasted image 20260803162946.png",
-    "Images/Blackhat/2026/Pasted image 20260803162935.png",
-    "Images/Blackhat/2026/Pasted image 20260803162021.png",
-    "HTB/Cheatsheets/Attacking Common Services.md",
     "HTB/Cheatsheets/Attacking Common Applications.md",
     "HTB/Cheatsheets/Active Directory Enumeration & Attacks.md",
     "Knowledge Base/Active Directory/Trusts.md",
     "Knowledge Base/Active Directory/Delegation.md",
-    "Tool Box/Chisel.md",
-    "Knowledge Base/Misc/Port Forwarding.md",
     "Untitled.md",
-    "HTB/Cheatsheets/Linux Privilege Escalation.md",
-    "Knowledge Base/Misc/Stabilize Shell.md",
-    "Knowledge Base/Misc/Finding Files.md",
-    "HTB/Cheatsheets/Command Injections.md",
-    "HTB/Cheatsheets/Login Brute Forcing.md",
     "BlackHat/2026/Missions",
     "BlackHat/2026",
     "BlackHat/2024",
@@ -232,7 +246,6 @@
     "Images/CTF",
     "CTFs/HTB/Apocalypse 26",
     "CTFs/HTB",
-    "CTFs",
-    "Boxes/Untitled"
+    "CTFs"
   ]
 }
