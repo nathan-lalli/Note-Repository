@@ -4,11 +4,11 @@
     "type": "split",
     "children": [
       {
-        "id": "3d28aece9d4f2a68",
+        "id": "c0140da172716a10",
         "type": "tabs",
         "children": [
           {
-            "id": "9bbe2a97f9cb5cfe",
+            "id": "69b49901eaee11ee",
             "type": "leaf",
             "state": {
               "type": "empty",
@@ -51,7 +51,7 @@
             "state": {
               "type": "search",
               "state": {
-                "query": "",
+                "query": "key_",
                 "matchingCase": false,
                 "explainSearch": false,
                 "collapseAll": false,
@@ -76,7 +76,8 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200
+    "width": 327.3828125,
+    "collapsed": true
   },
   "right": {
     "id": "3d3a9ffedf145e8c",
@@ -181,52 +182,52 @@
       "bases:Create new base": false
     }
   },
-  "active": "9bbe2a97f9cb5cfe",
+  "active": "69b49901eaee11ee",
   "lastOpenFiles": [
+    "Boxes/HTB Boxes/Layover.md",
+    "Boxes/HTB Boxes/DanglingTree.md",
+    "Images/Layover/layover_wireshark_found.png",
+    "Pasted image 20261002114337.png",
+    "Images/Layover",
+    "Images/Layover/layover_root_flag.png",
+    "Images/Layover/layover_running_processes.png",
+    "Images/Layover/layover_local_ports.png",
+    "HTB/Cheatsheets/Linux Privilege Escalation.md",
+    "Knowledge Base/Misc/Finding Files.md",
+    "Images/Layover/layover_no_sudo.png",
+    "Knowledge Base/Wi-Fi/(WEP) Wired Equivalent Privacy.md",
+    "Images/Layover/layover_user_flag.png",
+    "Images/Layover/layover_password_decrypted.png",
+    "Images/Layover/layover_decrypt_password_module.png",
+    "Images/Layover/layover_airways_module.png",
+    "Knowledge Base/Wi-Fi/(WPA(2)) Wi-Fi Protected Access Enterprise.md",
+    "Knowledge Base/Wi-Fi/(WPS) Wi-Fi Protected Setup.md",
+    "Knowledge Base/Wi-Fi/(WPA(2)) Wi-Fi Protected Access Personal.md",
+    "Knowledge Base/Wi-Fi/Aircrack-ng.md",
+    "Knowledge Base/Wi-Fi/Basics.md",
+    "Knowledge Base/Misc/Stabilize Shell.md",
+    "Reference Sheets/LazyVim.md",
+    "Reference Sheets",
+    "OSED",
     "Exams/Preparation/OSED/OSED Study Guide.md",
     "Exams/Preparation/OSED/OSED Checklist.md",
     "Exams/Preparation/OSED",
     "Tool Box/WinDbg.md",
     "Exams/Preparation",
     "Knowledge Base/Wi-Fi/Untitled.md",
-    "Knowledge Base/Wi-Fi/(WPA(2)) Wi-Fi Protected Access Enterprise.md",
-    "Knowledge Base/Wi-Fi/(WPA(2)) Wi-Fi Protected Access Personal.md",
-    "Knowledge Base/Wi-Fi/Basics.md",
-    "Knowledge Base/Wi-Fi/Aircrack-ng.md",
-    "Knowledge Base/Wi-Fi/(WEP) Wired Equivalent Privacy.md",
-    "Boxes/HTB Boxes/DanglingTree.md",
     "Tool Box/Chisel.md",
     "Knowledge Base/Misc/Port Forwarding.md",
     "Tool Box/Ldapsearch.md",
     "HTB/Cheatsheets/Attacking Common Services.md",
-    "Images/DanglingTree/netstat_internal_ports.png",
-    "Images/DanglingTree/reverse_shell_wac_api.png",
-    "Images/DanglingTree/whoami_wac_api.png",
-    "Images/DanglingTree/wac_logged_in.png",
-    "Images/DanglingTree/testing_credentials.png",
-    "Images/DanglingTree/discovered_credentials.png",
-    "Images/DanglingTree/smb_enumeration.png",
     "Knowledge Base/Misc/Subdomain & Vhost Fuzzing.md",
     "Images/DanglingTree",
-    "Images/DanglingTree/windows_admin_center.png",
     "Boxes/HTB Boxes/DarkZeroReturns.md",
     "Boxes/HTB Boxes/Devel.md",
     "BlackHat/2026/Internal Network Pivoting - Linux.md",
     "BlackHat/2026/Compromise the Perimeter.md",
-    "BlackHat/2026/Identity Compromise.md",
-    "BlackHat/2026/Cross Network Pivoting.md",
-    "BlackHat/2026/Reconnaissance.md",
-    "BlackHat/2026/Adversary Ops.md",
-    "BlackHat/2026/Phase 6 - Cloud.md",
-    "BlackHat/2026/Phase 5 - Enterprise Pivoting - Cross Domain.md",
-    "Images/Blackhat/2026/Pasted image 20260803164050.png",
-    "Images/Blackhat/2026/Screenshot 2026-08-03 113231.png",
     "Images/Blackhat/2026",
     "BlackHat/2026/Missions",
     "BlackHat/2026",
-    "BlackHat/2024",
-    "Images/DarkZeroReturns",
-    "Images/CTF",
-    "CTFs/HTB/Apocalypse 26"
+    "BlackHat/2024"
   ]
 }
